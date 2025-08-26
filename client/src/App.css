@@ -1,0 +1,575 @@
+/* Global reset for full-screen login */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* CSS variables for theme adaptation */
+:root {
+  --login-bg-light: linear-gradient(135deg, 
+    #667eea 0%, 
+    #764ba2 25%, 
+    #f093fb 50%, 
+    #f5576c 75%, 
+    #4facfe 100%);
+  --login-bg-dark: linear-gradient(135deg, 
+    #2c3e50 0%, 
+    #34495e 25%, 
+    #2980b9 50%, 
+    #8e44ad 75%, 
+    #2c3e50 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --login-bg: var(--login-bg-dark);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --login-bg: var(--login-bg-light);
+  }
+}
+
+/* Fallback for browsers that don't support prefers-color-scheme */
+:root {
+  --login-bg: var(--login-bg-light);
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin-top: 64px; /* Account for navbar height */
+}
+
+/* Login page should take full viewport */
+.login-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+/* Seamless starry background - MORE STARS (no animation) */
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 15% 25%, #FFD700 1px, transparent 1px),
+    radial-gradient(circle at 85% 15%, #C9B037 0.8px, transparent 0.8px),
+    radial-gradient(circle at 25% 85%, #FFD700 1.2px, transparent 1.2px),
+    radial-gradient(circle at 75% 75%, #F4D03F 0.6px, transparent 0.6px),
+    radial-gradient(circle at 45% 35%, #C9B037 0.9px, transparent 0.9px),
+    radial-gradient(circle at 95% 65%, #FFD700 0.7px, transparent 0.7px),
+    radial-gradient(circle at 5% 55%, #F4D03F 1px, transparent 1px),
+    radial-gradient(circle at 65% 5%, #C9B037 0.8px, transparent 0.8px),
+    radial-gradient(circle at 35% 95%, #FFD700 1.1px, transparent 1.1px),
+    radial-gradient(circle at 55% 45%, #F4D03F 0.6px, transparent 0.6px),
+    radial-gradient(circle at 20% 60%, #FFD700 0.7px, transparent 0.7px),
+    radial-gradient(circle at 80% 40%, #C9B037 0.9px, transparent 0.9px),
+    radial-gradient(circle at 10% 15%, #F4D03F 0.8px, transparent 0.8px),
+    radial-gradient(circle at 90% 80%, #FFD700 0.6px, transparent 0.6px),
+    radial-gradient(circle at 40% 10%, #C9B037 1px, transparent 1px),
+    radial-gradient(circle at 60% 90%, #F4D03F 0.7px, transparent 0.7px),
+    radial-gradient(circle at 30% 50%, #FFD700 0.5px, transparent 0.5px),
+    radial-gradient(circle at 70% 50%, #C9B037 0.8px, transparent 0.8px);
+  opacity: 0.6;
+}
+
+/* Secondary star layer for cosmic depth - MORE STARS (no animation) */
+.login-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 30% 10%, #F4D03F 0.5px, transparent 0.5px),
+    radial-gradient(circle at 70% 30%, #FFD700 0.8px, transparent 0.8px),
+    radial-gradient(circle at 10% 80%, #C9B037 0.6px, transparent 0.6px),
+    radial-gradient(circle at 90% 90%, #F4D03F 0.7px, transparent 0.7px),
+    radial-gradient(circle at 40% 70%, #FFD700 0.5px, transparent 0.5px),
+    radial-gradient(circle at 60% 20%, #C9B037 0.9px, transparent 0.9px),
+    radial-gradient(circle at 12% 45%, #F4D03F 0.6px, transparent 0.6px),
+    radial-gradient(circle at 88% 55%, #FFD700 0.7px, transparent 0.7px),
+    radial-gradient(circle at 22% 75%, #C9B037 0.5px, transparent 0.5px),
+    radial-gradient(circle at 78% 25%, #F4D03F 0.8px, transparent 0.8px),
+    radial-gradient(circle at 50% 5%, #FFD700 0.6px, transparent 0.6px),
+    radial-gradient(circle at 50% 95%, #C9B037 0.7px, transparent 0.7px),
+    radial-gradient(circle at 5% 25%, #F4D03F 0.5px, transparent 0.5px),
+    radial-gradient(circle at 95% 75%, #FFD700 0.9px, transparent 0.9px);
+  opacity: 0.4;
+}
+
+/* Falling stars container */
+.falling-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Individual falling star */
+.falling-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #FFD700;
+  border-radius: 50%;
+  opacity: 0;
+  animation: fallingStar 3s linear infinite;
+}
+
+/* Staggered falling star animations */
+.falling-star:nth-child(1) {
+  left: 10%;
+  animation-delay: 0s;
+  animation-duration: 3.5s;
+}
+
+.falling-star:nth-child(2) {
+  left: 30%;
+  animation-delay: 1.2s;
+  animation-duration: 4s;
+}
+
+.falling-star:nth-child(3) {
+  left: 50%;
+  animation-delay: 2.8s;
+  animation-duration: 3.2s;
+}
+
+.falling-star:nth-child(4) {
+  left: 70%;
+  animation-delay: 4.1s;
+  animation-duration: 3.8s;
+}
+
+.falling-star:nth-child(5) {
+  left: 85%;
+  animation-delay: 5.5s;
+  animation-duration: 3.6s;
+}
+
+.falling-star:nth-child(6) {
+  left: 15%;
+  animation-delay: 7s;
+  animation-duration: 4.2s;
+}
+
+.falling-star:nth-child(7) {
+  left: 65%;
+  animation-delay: 8.3s;
+  animation-duration: 3.4s;
+}
+
+.falling-star:nth-child(8) {
+  left: 40%;
+  animation-delay: 9.8s;
+  animation-duration: 3.9s;
+}
+
+/* Falling star animation */
+@keyframes fallingStar {
+  0% {
+    top: -10px;
+    opacity: 0;
+    transform: translateX(0) scale(0.5);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(20px) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(80px) scale(0.8);
+  }
+  100% {
+    top: 110vh;
+    opacity: 0;
+    transform: translateX(100px) scale(0.3);
+  }
+}
+
+/* Gentle star twinkling animation for luxury effect */
+@keyframes gentleStarTwinkle {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-30px) translateX(20px) rotate(90deg) scale(1.1);
+  }
+  50% {
+    transform: translateY(-20px) translateX(-15px) rotate(180deg) scale(0.9);
+  }
+  75% {
+    transform: translateY(-40px) translateX(10px) rotate(270deg) scale(1.05);
+  }
+}
+
+.login-container .MuiCard-root {
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 
+              0 15px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: visible;
+}
+
+/* Dark theme adaptation for login card */
+@media (prefers-color-scheme: dark) {
+  .login-container .MuiCard-root {
+    background: rgba(30, 30, 30, 0.95);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 
+                0 15px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.login-container .MuiCard-root:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 
+              0 20px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme hover effects */
+@media (prefers-color-scheme: dark) {
+  .login-container .MuiCard-root:hover {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 
+                0 20px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes sparkle {
+  from {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-100px) translateX(50px) rotate(180deg);
+  }
+  to {
+    transform: translateY(-200px) translateX(0) rotate(360deg);
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.course-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.course-card:hover {
+  transform: translateY(-4px);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.error {
+  color: #f44336;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Tab animation styles */
+.MuiTabs-root {
+  overflow: visible;
+}
+
+.MuiTab-root {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.MuiTab-root:hover {
+  transform: translateY(-2px);
+  color: #1976d2;
+}
+
+.Mui-selected {
+  transform: translateY(-2px);
+}
+
+/* Form field hover animations */
+.MuiTextField-root .MuiOutlinedInput-root {
+  transition: all 0.3s ease;
+}
+
+.MuiTextField-root .MuiOutlinedInput-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.MuiTextField-root .MuiOutlinedInput-root.Mui-focused {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(25, 118, 210, 0.2);
+}
+
+/* Button animations */
+.MuiButton-root {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.MuiButton-root::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.MuiButton-root:hover::before {
+  left: 100%;
+}
+
+.MuiButton-contained:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* Card entrance animation */
+@keyframes cardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive design for full-screen login */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 10px;
+  }
+  
+  .login-container .MuiCard-root {
+    min-width: 90vw;
+    max-width: 95vw;
+  }
+  
+  .login-container::after {
+    background-size: 200px 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container .MuiCard-root {
+    min-width: 95vw;
+    margin: 10px;
+  }
+}
+
+/* Ensure no interference from material-ui defaults */
+.login-container .MuiCssBaseline-root {
+  margin: 0;
+  padding: 0;
+}
+
+/* Enhanced login card animations */
+.login-container .MuiCard-root {
+  animation: cardEntrance 1s ease-out;
+}
+
+/* Form slide animations */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Success/Error alert animations */
+.MuiAlert-root {
+  animation: alertSlideIn 0.5s ease-out;
+}
+
+@keyframes alertSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gold text glow animation for demo accounts */
+@keyframes goldGlow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 25px rgba(255, 215, 0, 0.4);
+  }
+}
+
+/* Demo accounts container animation */
+@keyframes demoAccountsFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Gold shimmer effect */
+@keyframes goldShimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+/* Enhanced demo accounts styling */
+.demo-accounts-container {
+  animation: demoAccountsFloat 3s ease-in-out infinite;
+}
+
+.demo-account-item {
+  animation: goldGlow 2s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 215, 0, 0.1) 0%,
+    rgba(255, 215, 0, 0.2) 50%,
+    rgba(255, 215, 0, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: goldShimmer 3s ease-in-out infinite, goldGlow 2s ease-in-out infinite;
+}
+
+/* Gold-themed input fields */
+.gold-textfield .MuiOutlinedInput-root {
+  transition: all 0.3s ease !important;
+  background-color: rgba(255, 215, 0, 0.05) !important;
+}
+
+.gold-textfield .MuiOutlinedInput-root fieldset {
+  border-color: rgba(255, 215, 0, 0.3) !important;
+}
+
+.gold-textfield .MuiOutlinedInput-root:hover fieldset {
+  border-color: rgba(255, 215, 0, 0.6) !important;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2) !important;
+}
+
+.gold-textfield .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #FFD700 !important;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3) !important;
+}
+
+.gold-textfield .MuiOutlinedInput-root:hover {
+  transform: translateY(-2px) !important;
+}
+
+.gold-textfield .MuiInputLabel-root {
+  color: #C9B037 !important;
+}
+
+.gold-textfield .MuiInputLabel-root.Mui-focused {
+  color: #FFD700 !important;
+}
+
+.gold-textfield .MuiOutlinedInput-input {
+  color: #FFD700 !important;
+}
+
+.gold-textfield .MuiSelect-select {
+  color: #FFD700 !important;
+}
+
+/* Gold-themed alerts */
+.gold-alert.MuiAlert-standardError {
+  background-color: rgba(244, 67, 54, 0.1) !important;
+  border: 1px solid rgba(244, 67, 54, 0.3) !important;
+  color: #ff6b6b !important;
+}
+
+.gold-alert.MuiAlert-standardSuccess {
+  background-color: rgba(76, 175, 80, 0.1) !important;
+  border: 1px solid rgba(76, 175, 80, 0.3) !important;
+  color: #51cf66 !important;
+}
+
+.gold-alert .MuiAlert-icon {
+  color: inherit !important;
+}
