@@ -69,7 +69,15 @@ router.post('/register', [
     });
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ message: 'Server error during registration' });
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      hasJwtSecret: !!process.env.JWT_SECRET
+    });
+    res.status(500).json({ 
+      message: 'Server error during registration',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 

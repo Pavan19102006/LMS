@@ -88,7 +88,8 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV,
     database: dbStatus,
-    mongoState: mongoose.connection.readyState
+    mongoState: mongoose.connection.readyState,
+    hasJwtSecret: !!process.env.JWT_SECRET
   });
 });
 
