@@ -499,6 +499,19 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+      {/* Gradient Background as fallback */}
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          zIndex: -2
+        }}
+      />
+      
       {/* Video Background */}
       <Box
         component="video"
@@ -506,7 +519,7 @@ const Dashboard: React.FC = () => {
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         sx={{
           position: 'fixed',
           top: 0,
@@ -515,12 +528,24 @@ const Dashboard: React.FC = () => {
           height: '100%',
           objectFit: 'cover',
           zIndex: -1,
-          opacity: 0.3,
+          opacity: 0.4,
           '@media (max-width: 768px)': {
-            opacity: 0.2
+            opacity: 0.3
           }
         }}
+        onError={(e) => {
+          console.error('Video failed to load:', e);
+          // Hide video on error
+          (e.target as HTMLVideoElement).style.display = 'none';
+        }}
+        onLoadStart={() => {
+          console.log('Video loading started');
+        }}
+        onCanPlay={() => {
+          console.log('Video can play');
+        }}
       >
+        <source src={`${process.env.PUBLIC_URL}/83274-581386222.mp4`} type="video/mp4" />
         <source src="/83274-581386222.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </Box>
