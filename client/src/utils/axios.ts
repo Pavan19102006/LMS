@@ -8,16 +8,19 @@ console.log('🔍 Simple Axios Config Debug:');
 console.log('- Current URL:', currentUrl);
 console.log('- Hostname:', hostname);
 
-// Only use localhost:5001 if we're explicitly on localhost
-// Everything else uses /api
-const isExplicitLocalhost = (
-  hostname === 'localhost' || 
-  hostname === '127.0.0.1'
-) && window.location.protocol === 'http:';
+// For Replit development, use the proxy configuration
+let baseURL = '';
 
-const baseURL = isExplicitLocalhost ? 'http://localhost:5001' : '/api';
+// Check if we're in Replit environment
+if (hostname.includes('replit.dev') || hostname.includes('replit.co')) {
+  baseURL = '';  // Use proxy via package.json proxy setting
+} else if (hostname === 'localhost' || hostname === '127.0.0.1') {
+  baseURL = 'http://localhost:5001';
+} else {
+  baseURL = '/api';  // For production deployments
+}
 
-console.log('- Is Explicit Localhost:', isExplicitLocalhost);
+console.log('- Environment detected, baseURL:', baseURL);
 console.log('✅ FINAL API Base URL:', baseURL);
 
 // Set the axios default
