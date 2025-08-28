@@ -15,7 +15,8 @@ import Assignments from './components/Assignments/Assignments';
 import UserManagement from './components/Admin/UserManagement';
 import UserProfile from './components/Profile/UserProfile';
 import RubyAIChat from './components/AI/RubyAIChat';
-import { AuthProvider } from './contexts/AuthContext';
+import StarryBackground from './components/Common/StarryBackground';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './components/Common/ProtectedRoute';
 import Navbar from './components/Layout/Navbar';
 import './App.css';
@@ -67,6 +68,7 @@ const AppLayout = () => {
   const isLoginPage = location.pathname === '/login';
   const [rubyDialogOpen, setRubyDialogOpen] = useState(false);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const { isAuthenticated } = useAuth();
 
   const handleRubyClick = () => {
     setRubyDialogOpen(true);
@@ -78,6 +80,9 @@ const AppLayout = () => {
 
   return (
     <div className="App">
+      {/* Add starry background for authenticated users (not on login page) */}
+      {!isLoginPage && isAuthenticated && <StarryBackground />}
+      
       {!isLoginPage && <Navbar />}
       <main className={isLoginPage ? '' : 'main-content'}>
         <Routes>

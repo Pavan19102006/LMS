@@ -66,7 +66,13 @@ const Login: React.FC = () => {
       console.log('- Current URL:', window.location.href);
       
       await login(email, password);
-      navigate('/dashboard');
+      console.log('✅ Login completed successfully');
+      
+      // Set success message and navigate after a short delay
+      setSuccess('Login successful! Redirecting to dashboard...');
+      setTimeout(() => {
+        navigate('/dashboard', { replace: true });
+      }, 500);
     } catch (err: any) {
       console.error('🚨 Login Error Details:', {
         message: err.message,

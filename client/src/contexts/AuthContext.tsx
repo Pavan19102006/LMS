@@ -49,7 +49,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.log('Fetch user profile response:', response.data);
       setUser(response.data);
     } catch (error: any) {
-      console.error('Fetch user profile error:', error.response?.data || error.message);
+      console.error('Failed to fetch user profile:', error);
+      // If profile fetch fails, clear the token
       localStorage.removeItem('token');
       delete axios.defaults.headers.common['Authorization'];
     } finally {

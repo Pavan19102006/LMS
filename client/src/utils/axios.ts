@@ -5,7 +5,7 @@ const getApiBaseUrl = () => {
   // Check if we have a production API URL set
   if (process.env.REACT_APP_API_URL) {
     console.log('🌐 Using configured API URL:', process.env.REACT_APP_API_URL);
-    return process.env.REACT_APP_API_URL;
+    return process.env.REACT_APP_API_URL + '/api';
   }
 
   // Fallback to auto-detection

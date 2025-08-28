@@ -18,6 +18,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 interface Course {
   id: string;
+  courseCode: string;
   title: string;
   description: string;
   instructor: string;
@@ -34,69 +35,108 @@ const CourseList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Mock data - in real app, this would come from API
+  // Real KLU courses data from ERP system
   useEffect(() => {
-    const mockCourses: Course[] = [
+    const kluCourses: Course[] = [
       {
         id: '1',
-        title: 'Introduction to Web Development',
-        description: 'Learn the fundamentals of HTML, CSS, and JavaScript',
-        instructor: 'John Smith',
-        duration: '8 weeks',
-        level: 'Beginner',
+        courseCode: '23UC0013',
+        title: 'Global Logic Building Contest Practicum',
+        description: 'Develop logical thinking and problem-solving skills through competitive programming contests and practical exercises.',
+        instructor: 'CSE-1 Department',
+        duration: '12 weeks',
+        level: 'Intermediate',
         enrolled: 45,
-        maxStudents: 50,
+        maxStudents: 60,
       },
       {
         id: '2',
-        title: 'Advanced React Development',
-        description: 'Master React hooks, context, and state management',
-        instructor: 'Sarah Johnson',
-        duration: '12 weeks',
-        level: 'Advanced',
-        enrolled: 28,
-        maxStudents: 30,
-      },
-      {
-        id: '3',
-        title: 'Database Design and SQL',
-        description: 'Learn database modeling and SQL query optimization',
-        instructor: 'Mike Davis',
-        duration: '10 weeks',
+        courseCode: '24AD2103R',
+        title: 'Database Management Systems',
+        description: 'Comprehensive study of database design, SQL, normalization, and modern database technologies.',
+        instructor: 'AI&DS Department',
+        duration: '24 weeks',
         level: 'Intermediate',
-        enrolled: 35,
-        maxStudents: 40,
-      },
-      {
-        id: '4',
-        title: 'Python Programming Basics',
-        description: 'Start your programming journey with Python',
-        instructor: 'Lisa Wilson',
-        duration: '6 weeks',
-        level: 'Beginner',
         enrolled: 52,
         maxStudents: 60,
       },
       {
+        id: '3',
+        courseCode: '24CS2101R',
+        title: 'Operating Systems',
+        description: 'Study of operating system concepts including process management, memory management, and file systems.',
+        instructor: 'CSE-1 Department',
+        duration: '20 weeks',
+        level: 'Intermediate',
+        enrolled: 48,
+        maxStudents: 55,
+      },
+      {
+        id: '4',
+        courseCode: '24SC2006',
+        title: 'Object Oriented Programming',
+        description: 'Learn object-oriented programming concepts, design patterns, and software development best practices.',
+        instructor: 'CSE-3 Department',
+        duration: '18 weeks',
+        level: 'Beginner',
+        enrolled: 55,
+        maxStudents: 60,
+      },
+      {
         id: '5',
-        title: 'Machine Learning Fundamentals',
-        description: 'Introduction to ML algorithms and applications',
-        instructor: 'Dr. Robert Chen',
-        duration: '14 weeks',
+        courseCode: '24DT01F',
+        title: 'Entrepreneurial Technology Development and Prototyping',
+        description: 'Develop entrepreneurial skills and learn to create technology prototypes for innovative business solutions.',
+        instructor: 'MDI&E Department',
+        duration: '16 weeks',
         level: 'Advanced',
-        enrolled: 18,
-        maxStudents: 25,
+        enrolled: 28,
+        maxStudents: 40,
+      },
+      {
+        id: '6',
+        courseCode: '24SDC801A',
+        title: 'Front End Development Frameworks',
+        description: 'Master modern frontend frameworks including React, Angular, and Vue.js for web application development.',
+        instructor: 'CS&IT Department',
+        duration: '22 weeks',
+        level: 'Advanced',
+        enrolled: 42,
+        maxStudents: 50,
+      },
+      {
+        id: '7',
+        courseCode: '24AD2001A',
+        title: 'Artificial Intelligence and Machine Learning',
+        description: 'Explore AI concepts, machine learning algorithms, neural networks, and deep learning applications.',
+        instructor: 'AI&DS Department',
+        duration: '30 weeks',
+        level: 'Advanced',
+        enrolled: 38,
+        maxStudents: 45,
+      },
+      {
+        id: '8',
+        courseCode: '24MT2012',
+        title: 'Mathematical Optimization',
+        description: 'Study optimization techniques, linear programming, and mathematical modeling for problem solving.',
+        instructor: 'AI&DS Department',
+        duration: '25 weeks',
+        level: 'Advanced',
+        enrolled: 35,
+        maxStudents: 40,
       },
     ];
     
     setTimeout(() => {
-      setCourses(mockCourses);
+      setCourses(kluCourses);
       setLoading(false);
     }, 1000);
   }, []);
 
   const filteredCourses = courses.filter(course =>
     course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.courseCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
     course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
     course.instructor.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -156,16 +196,19 @@ const CourseList: React.FC = () => {
         <Grid container spacing={3}>
           {filteredCourses.map((course) => (
             <Grid item xs={12} sm={6} md={4} key={course.id}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <Card className="dashboard-card" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h6" component="h2">
                     {course.title}
+                  </Typography>
+                  <Typography variant="body2" color="primary" sx={{ fontWeight: 'bold', mb: 1 }}>
+                    {course.courseCode}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" paragraph>
                     {course.description}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
-                    <strong>Instructor:</strong> {course.instructor}
+                    <strong>Department:</strong> {course.instructor}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
                     <strong>Duration:</strong> {course.duration}

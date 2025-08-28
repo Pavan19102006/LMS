@@ -55,6 +55,11 @@ html, body {
   flex: 1;
   padding: 20px;
   margin-top: 64px; /* Account for navbar height */
+  position: relative;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.1); /* Subtle dark overlay for content readability */
+  backdrop-filter: blur(1px);
+  min-height: calc(100vh - 64px);
 }
 
 /* Login page should take full viewport */
@@ -293,6 +298,54 @@ html, body {
   }
   to {
     transform: translateY(-200px) translateX(0) rotate(360deg);
+  }
+}
+
+/* Dashboard card styles for starry background */
+.dashboard-card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 215, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+/* Dark theme adaptation for dashboard cards */
+@media (prefers-color-scheme: dark) {
+  .dashboard-card {
+    background: rgba(30, 30, 30, 0.95) !important;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.1);
+  }
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 30px rgba(255, 215, 0, 0.1);
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+/* Dark theme hover effects for dashboard cards */
+@media (prefers-color-scheme: dark) {
+  .dashboard-card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.2);
+  }
+}
+
+/* Navbar styling over starry background */
+.MuiAppBar-root {
+  background: rgba(25, 25, 25, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 215, 0, 0.05);
+}
+
+/* Light theme navbar */
+@media (prefers-color-scheme: light) {
+  .MuiAppBar-root {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #000 !important;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
   }
 }
 

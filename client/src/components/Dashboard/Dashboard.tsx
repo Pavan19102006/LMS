@@ -35,67 +35,95 @@ const Dashboard: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [coursesDialogOpen, setCoursesDialogOpen] = useState(false);
 
-  // Mock enrolled courses data (in a real app, this would come from an API)
+  // Real enrolled courses data from KLU ERP
   const enrolledCourses = [
     {
       id: 1,
-      title: "Introduction to Computer Science",
-      instructor: "Dr. Smith",
-      progress: 78,
-      totalLessons: 24,
-      completedLessons: 18,
-      nextLesson: "Data Structures",
+      courseCode: "23UC0013",
+      title: "Global Logic Building Contest Practicum",
+      instructor: "CSE-1 Department",
+      progress: 85,
+      totalLessons: 12,
+      completedLessons: 10,
+      nextLesson: "Contest Preparation",
       color: "#1976d2"
     },
     {
       id: 2,
-      title: "Web Development Fundamentals",
-      instructor: "Prof. Johnson",
-      progress: 92,
-      totalLessons: 20,
+      courseCode: "24AD2103R",
+      title: "Database Management Systems",
+      instructor: "AI&DS Department",
+      progress: 78,
+      totalLessons: 24,
       completedLessons: 18,
-      nextLesson: "React Hooks",
+      nextLesson: "Normalization Techniques",
       color: "#388e3c"
     },
     {
       id: 3,
-      title: "Database Design",
-      instructor: "Dr. Williams",
-      progress: 45,
-      totalLessons: 16,
-      completedLessons: 7,
-      nextLesson: "Normalization",
+      courseCode: "24CS2101R",
+      title: "Operating Systems",
+      instructor: "CSE-1 Department",
+      progress: 65,
+      totalLessons: 20,
+      completedLessons: 13,
+      nextLesson: "Process Scheduling",
       color: "#f57c00"
     },
     {
       id: 4,
-      title: "Machine Learning Basics",
-      instructor: "Prof. Davis",
-      progress: 23,
-      totalLessons: 30,
-      completedLessons: 7,
-      nextLesson: "Linear Regression",
+      courseCode: "24SC2006",
+      title: "Object Oriented Programming",
+      instructor: "CSE-3 Department",
+      progress: 92,
+      totalLessons: 18,
+      completedLessons: 16,
+      nextLesson: "Design Patterns",
       color: "#7b1fa2"
     },
     {
       id: 5,
-      title: "Software Engineering",
-      instructor: "Dr. Brown",
-      progress: 67,
-      totalLessons: 22,
-      completedLessons: 15,
-      nextLesson: "Testing Strategies",
+      courseCode: "24DT01F",
+      title: "Entrepreneurial Technology Development and Prototyping",
+      instructor: "MDI&E Department",
+      progress: 45,
+      totalLessons: 16,
+      completedLessons: 7,
+      nextLesson: "Prototype Development",
       color: "#d32f2f"
     },
     {
       id: 6,
-      title: "Mobile App Development",
-      instructor: "Prof. Wilson",
-      progress: 89,
-      totalLessons: 18,
-      completedLessons: 16,
-      nextLesson: "App Store Deployment",
+      courseCode: "24SDC801A",
+      title: "Front End Development Frameworks",
+      instructor: "CS&IT Department",
+      progress: 88,
+      totalLessons: 22,
+      completedLessons: 19,
+      nextLesson: "React Advanced Concepts",
       color: "#0288d1"
+    },
+    {
+      id: 7,
+      courseCode: "24AD2001A",
+      title: "Artificial Intelligence and Machine Learning",
+      instructor: "AI&DS Department",
+      progress: 72,
+      totalLessons: 30,
+      completedLessons: 21,
+      nextLesson: "Neural Networks",
+      color: "#689f38"
+    },
+    {
+      id: 8,
+      courseCode: "24MT2012",
+      title: "Mathematical Optimization",
+      instructor: "AI&DS Department",
+      progress: 58,
+      totalLessons: 25,
+      completedLessons: 14,
+      nextLesson: "Linear Programming",
+      color: "#5d4037"
     }
   ];
 
@@ -156,7 +184,14 @@ const Dashboard: React.FC = () => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={3}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <People color="primary" sx={{ mr: 2 }} />
@@ -171,7 +206,14 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <School color="primary" sx={{ mr: 2 }} />
@@ -186,7 +228,14 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <Assignment color="primary" sx={{ mr: 2 }} />
@@ -201,7 +250,14 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <Analytics color="primary" sx={{ mr: 2 }} />
@@ -221,7 +277,14 @@ const Dashboard: React.FC = () => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <School color="primary" sx={{ mr: 2 }} />
@@ -236,7 +299,14 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <People color="primary" sx={{ mr: 2 }} />
@@ -251,7 +321,14 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <Assignment color="primary" sx={{ mr: 2 }} />
@@ -272,8 +349,12 @@ const Dashboard: React.FC = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4}>
               <Card 
+                className="dashboard-card"
                 sx={{ 
                   cursor: 'pointer',
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
                   transition: 'all 0.3s ease',
                   '&:hover': {
                     transform: 'translateY(-2px)',
@@ -290,7 +371,7 @@ const Dashboard: React.FC = () => {
                       <Typography color="textSecondary" gutterBottom>
                         Enrolled Courses
                       </Typography>
-                      <Typography variant="h4">6</Typography>
+                      <Typography variant="h4">8</Typography>
                     </Box>
                   </Box>
                 </CardContent>
@@ -298,6 +379,7 @@ const Dashboard: React.FC = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Card 
+                className="dashboard-card"
                 sx={{ 
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
@@ -323,7 +405,7 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <Card>
+              <Card className="dashboard-card">
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <Analytics color="primary" sx={{ mr: 2 }} />
@@ -343,7 +425,14 @@ const Dashboard: React.FC = () => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <School color="primary" sx={{ mr: 2 }} />
@@ -358,7 +447,14 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <Assignment color="primary" sx={{ mr: 2 }} />
@@ -373,7 +469,14 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <Card>
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <Analytics color="primary" sx={{ mr: 2 }} />
@@ -395,33 +498,110 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ mt: 4, mb: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          {getGreeting()}, {user?.firstName}!
-        </Typography>
-        <Box display="flex" alignItems="center" gap={1} mb={3}>
-          <Typography variant="body1" color="textSecondary">
-            Role:
+    <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+      {/* Video Background */}
+      <Box
+        component="video"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: -1,
+          opacity: 0.3,
+          '@media (max-width: 768px)': {
+            opacity: 0.2
+          }
+        }}
+      >
+        <source src="/83274-581386222.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </Box>
+      
+      {/* Overlay for better readability */}
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          zIndex: -1
+        }}
+      />
+      
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        <Box sx={{ mt: 4, mb: 4 }}>
+          <Typography 
+            variant="h4" 
+            component="h1" 
+            gutterBottom
+            sx={{ 
+              color: 'white',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+              fontWeight: 'bold'
+            }}
+          >
+            {getGreeting()}, {user?.firstName}!
           </Typography>
-          <Chip 
-            label={user?.role?.replace('_', ' ').toUpperCase()} 
-            color="primary" 
-            variant="outlined" 
-          />
-        </Box>
-        
-        {getRoleBasedContent()}
+          <Box display="flex" alignItems="center" gap={1} mb={3}>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                color: 'white',
+                textShadow: '1px 1px 2px rgba(0,0,0,0.7)'
+              }}
+            >
+              Role:
+            </Typography>
+            <Chip 
+              label={user?.role?.replace('_', ' ').toUpperCase()} 
+              color="primary" 
+              variant="filled"
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'white',
+                fontWeight: 'bold',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
+              }}
+            />
+          </Box>        {getRoleBasedContent()}
         
         <Box sx={{ mt: 4 }} id="quick-actions">
-          <Typography variant="h5" component="h2" gutterBottom>
+          <Typography 
+            variant="h5" 
+            component="h2" 
+            gutterBottom
+            sx={{ 
+              color: 'white',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+              fontWeight: 'bold'
+            }}
+          >
             Quick Actions
           </Typography>
           <Grid container spacing={2}>
             {user?.role === 'admin' && (
               <>
                 <Grid item>
-                  <Card sx={{ cursor: 'pointer', '&:hover': { boxShadow: 3 } }}>
+                  <Card 
+                    className="dashboard-card" 
+                    sx={{ 
+                      cursor: 'pointer', 
+                      '&:hover': { boxShadow: 6 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}
+                  >
                     <CardContent>
                       <Typography variant="h6">Manage Users</Typography>
                       <Typography variant="body2" color="textSecondary">
@@ -431,7 +611,16 @@ const Dashboard: React.FC = () => {
                   </Card>
                 </Grid>
                 <Grid item>
-                  <Card sx={{ cursor: 'pointer', '&:hover': { boxShadow: 3 } }}>
+                  <Card 
+                    className="dashboard-card" 
+                    sx={{ 
+                      cursor: 'pointer', 
+                      '&:hover': { boxShadow: 6 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}
+                  >
                     <CardContent>
                       <Typography variant="h6">System Settings</Typography>
                       <Typography variant="body2" color="textSecondary">
@@ -445,7 +634,16 @@ const Dashboard: React.FC = () => {
             {user?.role === 'instructor' && (
               <>
                 <Grid item>
-                  <Card sx={{ cursor: 'pointer', '&:hover': { boxShadow: 3 } }}>
+                  <Card 
+                    className="dashboard-card" 
+                    sx={{ 
+                      cursor: 'pointer', 
+                      '&:hover': { boxShadow: 6 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}
+                  >
                     <CardContent>
                       <Typography variant="h6">Create Course</Typography>
                       <Typography variant="body2" color="textSecondary">
@@ -455,7 +653,16 @@ const Dashboard: React.FC = () => {
                   </Card>
                 </Grid>
                 <Grid item>
-                  <Card sx={{ cursor: 'pointer', '&:hover': { boxShadow: 3 } }}>
+                  <Card 
+                    className="dashboard-card" 
+                    sx={{ 
+                      cursor: 'pointer', 
+                      '&:hover': { boxShadow: 6 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}
+                  >
                     <CardContent>
                       <Typography variant="h6">Grade Assignments</Typography>
                       <Typography variant="body2" color="textSecondary">
@@ -471,9 +678,13 @@ const Dashboard: React.FC = () => {
                 <Grid item>
                   <Card 
                     id="browse-courses-card"
+                    className="dashboard-card"
                     sx={{ 
                       cursor: 'pointer', 
-                      '&:hover': { boxShadow: 3 }
+                      '&:hover': { boxShadow: 6 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
                     }}
                     onClick={handleBrowseCoursesClick}
                   >
@@ -489,9 +700,13 @@ const Dashboard: React.FC = () => {
                 </Grid>
                 <Grid item>
                   <Card 
+                    className="dashboard-card"
                     sx={{ 
                       cursor: 'pointer', 
-                      '&:hover': { boxShadow: 3 }
+                      '&:hover': { boxShadow: 6 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
                     }}
                     onClick={handleSubmitAssignmentClick}
                   >
@@ -499,6 +714,48 @@ const Dashboard: React.FC = () => {
                       <Typography variant="h6">Submit Assignment</Typography>
                       <Typography variant="body2" color="textSecondary">
                         Upload your work
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </>
+            )}
+            {user?.role === 'content_creator' && (
+              <>
+                <Grid item>
+                  <Card 
+                    className="dashboard-card" 
+                    sx={{ 
+                      cursor: 'pointer', 
+                      '&:hover': { boxShadow: 6 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant="h6">Create Content</Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Develop new learning materials
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item>
+                  <Card 
+                    className="dashboard-card" 
+                    sx={{ 
+                      cursor: 'pointer', 
+                      '&:hover': { boxShadow: 6 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant="h6">Manage Resources</Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Organize your content library
                       </Typography>
                     </CardContent>
                   </Card>
@@ -524,6 +781,14 @@ const Dashboard: React.FC = () => {
           onClose={handleCoursesDialogClose}
           maxWidth="md"
           fullWidth
+          PaperProps={{
+            sx: {
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: 2
+            }
+          }}
         >
           <DialogTitle>
             <Box display="flex" alignItems="center" gap={2}>
@@ -557,9 +822,14 @@ const Dashboard: React.FC = () => {
                     </ListItemIcon>
                     <ListItemText
                       primary={
-                        <Typography variant="h6" component="div">
-                          {course.title}
-                        </Typography>
+                        <Box>
+                          <Typography variant="h6" component="div">
+                            {course.title}
+                          </Typography>
+                          <Typography variant="body2" color="primary" sx={{ fontWeight: 'bold' }}>
+                            {course.courseCode}
+                          </Typography>
+                        </Box>
                       }
                       secondary={
                         <Box>
@@ -618,8 +888,9 @@ const Dashboard: React.FC = () => {
             </Button>
           </DialogActions>
         </Dialog>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
