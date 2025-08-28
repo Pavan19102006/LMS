@@ -1,10 +1,11 @@
-# 🎓 LMS - Learning Management System
+# 🎓 Learning Management System (LMS)
 
-A comprehensive, full-stack Learning Management System built with React and Node.js, designed with an e-commerce-style user experience.
+A comprehensive, full-stack Learning Management System built with modern web technologies. This platform supports multiple user roles including Admin, Instructor, Student, and Content Creator with role-based authentication and course management capabilities.
 
-## 🚀 Live Demo
+## 🚀 Live Deployments
 
-**Production URL:** https://lms-8q000e6uk-boppanapavanprasads-projects.vercel.app
+- **Vercel**: [https://lms-ph8u6qbz3-boppanapavanprasads-projects.vercel.app](https://lms-ph8u6qbz3-boppanapavanprasads-projects.vercel.app)
+- **Netlify**: [https://lmsfed.netlify.app](https://lmsfed.netlify.app)
 
 ### Demo Credentials
 - **Admin:** `admin@lms.com` / `admin123`
