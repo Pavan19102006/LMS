@@ -107,30 +107,21 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Serve static files from React app build (for production)
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-
-  // Handle React routing, return all requests to React app
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+// API-only mode - no static file serving
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'LMS API Server is running!',
+    mode: 'API Only',
+    environment: process.env.NODE_ENV || 'development',
+    endpoints: [
+      'POST /api/auth/login',
+      'POST /api/auth/register',
+      'GET /api/users/profile',
+      'GET /api/courses',
+      'GET /api/assignments'
+    ]
   });
-} else {
-  // Development mode - just handle API routes
-  app.get('/', (req, res) => {
-    res.json({ 
-      message: 'LMS API Server is running!',
-      mode: 'development',
-      endpoints: [
-        'POST /api/auth/login',
-        'POST /api/auth/register',
-        'GET /api/users/profile',
-        'GET /api/courses',
-        'GET /api/assignments'
-      ]
-    });
-  });
-}
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -143,7 +134,8 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`LMS Server running on port ${PORT}`);
+  console.log(`LMS API Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`Mode: ${process.env.NODE_ENV === 'production' ? 'Full-Stack (Frontend + Backend)' : 'API Only'}`);
+  console.log(`Mode: API Only (Backend)`);
+  console.log(`Frontend should be deployed separately and connect to this API`);
 });

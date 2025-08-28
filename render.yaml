@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: lms-backend
+    env: node
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        value: mongodb+srv://boppanapavan63:lSSetUpdEiwAwTYp@cluster0.u4nzwts.mongodb.net/lms?retryWrites=true&w=majority&appName=Cluster0
+      - key: JWT_SECRET
+        value: lms-super-secret-jwt-key-2025-production-secure
+      - key: JWT_EXPIRE
+        value: 7d
