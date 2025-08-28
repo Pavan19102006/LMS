@@ -2,6 +2,7 @@
   "name": "lms-client",
   "version": "1.0.0",
   "private": true,
+  "proxy": "http://localhost:5001",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
