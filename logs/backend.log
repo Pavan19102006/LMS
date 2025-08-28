@@ -1,7 +1,0 @@
-
-> lms-server@1.0.0 start
-> node index.js
-
-LMS Server running on port 5001
-Environment: development
-MongoDB connected

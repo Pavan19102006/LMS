@@ -16,11 +16,11 @@ html, body {
     #f5576c 75%, 
     #4facfe 100%);
   --login-bg-dark: linear-gradient(135deg, 
-    #2c3e50 0%, 
-    #34495e 25%, 
-    #2980b9 50%, 
-    #8e44ad 75%, 
-    #2c3e50 100%);
+    #0d1117 0%, 
+    #161b22 25%, 
+    #21262d 50%, 
+    #30363d 75%, 
+    #161b22 100%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -572,4 +572,70 @@ html, body {
 
 .gold-alert .MuiAlert-icon {
   color: inherit !important;
+}
+
+/* Ruby AI Floating Button Styles */
+.ruby-fab {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 1300 !important;
+}
+
+.ruby-fab:hover {
+  transform: scale(1.1) !important;
+}
+
+/* Ensure floating button doesn't interfere with page content */
+.main-content {
+  padding-bottom: 100px; /* Extra space at bottom for floating button */
+}
+
+/* Mobile responsiveness for Ruby button */
+@media (max-width: 768px) {
+  .ruby-fab {
+    bottom: 16px !important;
+    right: 16px !important;
+    transform: scale(0.9) !important;
+  }
+  
+  .ruby-fab:hover {
+    transform: scale(1.0) !important;
+  }
+}
+
+/* Dark mode enhancements for Ruby AI */
+@media (prefers-color-scheme: dark) {
+  .MuiDialog-paper {
+    background-color: #1a1a1a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .MuiDialogTitle-root {
+    background-color: #1a1a1a !important;
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .MuiDialogContent-root {
+    background-color: #0d1117 !important;
+  }
+  
+  /* Scrollbar styling for dark mode */
+  .MuiDialogContent-root::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .MuiDialogContent-root::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+  }
+  
+  .MuiDialogContent-root::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+  }
+  
+  .MuiDialogContent-root::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
 }

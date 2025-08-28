@@ -1,0 +1,12 @@
+{
+  "build": {
+    "commands": [
+      "npm install",
+      "cd client && npm install && npm run build"
+    ]
+  },
+  "deploy": {
+    "startCommand": "cd server && npm start",
+    "healthcheckPath": "/api/health"
+  }
+}

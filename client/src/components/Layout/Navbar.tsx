@@ -11,7 +11,12 @@ import {
   MenuItem,
   Avatar,
 } from '@mui/material';
-import { AccountCircle, ExitToApp } from '@mui/icons-material';
+import { 
+  AccountCircle, 
+  ExitToApp, 
+  Settings as SettingsIcon, 
+  Person as PersonIcon 
+} from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Navbar: React.FC = () => {
@@ -31,6 +36,11 @@ const Navbar: React.FC = () => {
   const handleLogout = () => {
     logout();
     navigate('/login');
+    handleClose();
+  };
+
+  const handleProfileClick = () => {
+    navigate('/profile');
     handleClose();
   };
 
@@ -59,6 +69,13 @@ const Navbar: React.FC = () => {
             variant={location.pathname === '/courses' ? 'outlined' : 'text'}
           >
             Courses
+          </Button>
+          <Button 
+            color="inherit" 
+            onClick={() => navigate('/assignments')}
+            variant={location.pathname === '/assignments' ? 'outlined' : 'text'}
+          >
+            Assignments
           </Button>
           {user?.role === 'admin' && (
             <Button 
@@ -99,10 +116,17 @@ const Navbar: React.FC = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>
-              <Typography>
-                {user?.firstName} {user?.lastName} ({user?.role})
-              </Typography>
+            <MenuItem onClick={handleProfileClick}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}>
+                <PersonIcon sx={{ fontSize: 20 }} />
+                <Typography>
+                  {user?.firstName} {user?.lastName} ({user?.role})
+                </Typography>
+              </Box>
+            </MenuItem>
+            <MenuItem onClick={handleProfileClick}>
+              <SettingsIcon sx={{ mr: 1 }} />
+              Profile Settings
             </MenuItem>
             <MenuItem onClick={handleLogout}>
               <ExitToApp sx={{ mr: 1 }} />

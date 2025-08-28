@@ -60,10 +60,25 @@ const Login: React.FC = () => {
     setError('');
 
     try {
+      console.log('🔥 Frontend Login Debug:');
+      console.log('- Email:', email);
+      console.log('- API Base URL:', axios.defaults.baseURL);
+      console.log('- Current URL:', window.location.href);
+      
       await login(email, password);
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed');
+      console.error('🚨 Login Error Details:', {
+        message: err.message,
+        response: err.response,
+        responseData: err.response?.data,
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        config: err.config
+      });
+      
+      const errorMessage = err.response?.data?.message || err.message || 'Login failed';
+      setError(`Login failed: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -76,13 +91,21 @@ const Login: React.FC = () => {
     setSuccess('');
 
     try {
-      await axios.post('/api/auth/register', {
+      console.log('🔥 Frontend Registration Debug:');
+      console.log('- Email:', email);
+      console.log('- API Base URL:', axios.defaults.baseURL);
+      console.log('- Current URL:', window.location.href);
+      console.log('- Registration data:', { email, firstName, lastName, role });
+      
+      const response = await axios.post('/api/auth/register', {
         email,
         password,
         firstName,
         lastName,
         role,
       });
+      
+      console.log('✅ Registration Success:', response.data);
 
       setSuccess('Account created successfully! Please log in.');
       setActiveTab(0); // Switch to login tab
@@ -92,7 +115,17 @@ const Login: React.FC = () => {
       setLastName('');
       setRole('student');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed');
+      console.error('🚨 Registration Error Details:', {
+        message: err.message,
+        response: err.response,
+        responseData: err.response?.data,
+        status: err.response?.status,
+        statusText: err.response?.statusText,
+        config: err.config
+      });
+      
+      const errorMessage = err.response?.data?.message || err.message || 'Registration failed';
+      setError(`Registration failed: ${errorMessage}`);
     } finally {
       setLoading(false);
     }

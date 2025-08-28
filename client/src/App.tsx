@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useMediaQuery } from '@mui/material';
+import { 
+  useMediaQuery, 
+  Fab
+} from '@mui/material';
+import { SmartToy as RubyIcon } from '@mui/icons-material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Login from './components/Auth/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import CourseList from './components/Courses/CourseList';
 import CourseDetail from './components/Courses/CourseDetail';
+import Assignments from './components/Assignments/Assignments';
 import UserManagement from './components/Admin/UserManagement';
+import UserProfile from './components/Profile/UserProfile';
+import RubyAIChat from './components/AI/RubyAIChat';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/Common/ProtectedRoute';
 import Navbar from './components/Layout/Navbar';
@@ -29,13 +36,14 @@ const useSystemTheme = () => {
             main: prefersDarkMode ? '#f48fb1' : '#dc004e',
           },
           background: {
-            default: prefersDarkMode ? '#121212' : '#fafafa',
-            paper: prefersDarkMode ? '#1e1e1e' : '#ffffff',
+            default: prefersDarkMode ? '#0d1117' : '#fafafa',
+            paper: prefersDarkMode ? '#161b22' : '#ffffff',
           },
           text: {
             primary: prefersDarkMode ? '#ffffff' : '#000000',
-            secondary: prefersDarkMode ? '#aaaaaa' : '#666666',
+            secondary: prefersDarkMode ? '#8b949e' : '#666666',
           },
+          divider: prefersDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.12)',
         },
         components: {
           MuiCssBaseline: {
@@ -57,6 +65,16 @@ const useSystemTheme = () => {
 const AppLayout = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
+  const [rubyDialogOpen, setRubyDialogOpen] = useState(false);
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+  const handleRubyClick = () => {
+    setRubyDialogOpen(true);
+  };
+
+  const handleRubyDialogClose = () => {
+    setRubyDialogOpen(false);
+  };
 
   return (
     <div className="App">
@@ -90,6 +108,22 @@ const AppLayout = () => {
             }
           />
           <Route
+            path="/assignments"
+            element={
+              <ProtectedRoute>
+                <Assignments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/admin/users"
             element={
               <ProtectedRoute requiredRole="admin">
@@ -99,6 +133,40 @@ const AppLayout = () => {
           />
         </Routes>
       </main>
+
+      {/* Ruby AI Assistant Floating Action Button */}
+      {!isLoginPage && (
+        <>
+          <Fab
+            color="secondary"
+            aria-label="Ruby AI Assistant"
+            onClick={handleRubyClick}
+            className="ruby-fab"
+            sx={{
+              background: prefersDarkMode 
+                ? 'linear-gradient(45deg, #e91e63 30%, #ff4081 90%)'
+                : 'linear-gradient(45deg, #e91e63 30%, #ff4081 90%)',
+              '&:hover': {
+                background: prefersDarkMode
+                  ? 'linear-gradient(45deg, #c2185b 30%, #f50057 90%)'
+                  : 'linear-gradient(45deg, #c2185b 30%, #f50057 90%)',
+              },
+              transition: 'all 0.3s ease',
+              boxShadow: prefersDarkMode
+                ? '0 4px 20px rgba(233, 30, 99, 0.5)'
+                : '0 4px 20px rgba(233, 30, 99, 0.3)',
+            }}
+          >
+            <RubyIcon sx={{ color: 'white' }} />
+          </Fab>
+
+          {/* Ruby AI Dialog - Placeholder for future AI integration */}
+          <RubyAIChat
+            open={rubyDialogOpen}
+            onClose={handleRubyDialogClose}
+          />
+        </>
+      )}
     </div>
   );
 };
