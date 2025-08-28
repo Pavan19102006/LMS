@@ -8,7 +8,8 @@ const router = express.Router();
 
 // Generate JWT token
 const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET, {
+  const jwtSecret = process.env.JWT_SECRET || 'fallback-lms-jwt-secret-2025-temp';
+  return jwt.sign({ userId }, jwtSecret, {
     expiresIn: process.env.JWT_EXPIRE || '7d'
   });
 };
