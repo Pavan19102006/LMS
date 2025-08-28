@@ -1,0 +1,6 @@
+client/node_modules
+client/src
+client/public
+server/node_modules
+node_modules
+.git

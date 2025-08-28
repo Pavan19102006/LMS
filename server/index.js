@@ -8,6 +8,7 @@ require('dotenv').config();
 
 // Use MongoDB with real auth system
 const authRoutes = require('./routes/auth');
+const authDemoRoutes = require('./routes/auth-demo');
 const userRoutes = require('./routes/users');
 const courseRoutes = require('./routes/courses');
 const assignmentRoutes = require('./routes/assignments');
@@ -17,26 +18,38 @@ const app = express();
 // Set trust proxy to 1 to trust the first hop from Vercel
 app.set('trust proxy', 1);
 
-const PORT = process.env.PORT || 5000;
+// Variable to track database connection status
+let isMongoConnected = false;
+
+// CORS configuration
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? [
+        'https://lms-fullstack.vercel.app',
+        'https://lms-education-platform.netlify.app',
+        /\.vercel\.app$/,
+        /\.netlify\.app$/,
+        /\.replit\.dev$/,
+        /\.replit\.co$/
+      ]
+    : [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        /localhost:\d+/,
+        /\.replit\.dev$/,
+        /\.replit\.co$/,
+        /\.replit\.app$/
+      ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+};
 
 // Security middleware
 app.use(helmet());
 
-// Handle preflight requests explicitly
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.sendStatus(200);
-});
-
-// CORS configuration for unified app
-app.use(cors({
-  origin: true, // Allow all origins for unified app
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+// Apply CORS with the defined options
+app.use(cors(corsOptions));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -54,22 +67,32 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lms', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('MongoDB connected successfully'))
-.catch(err => console.error('MongoDB connection error:', err));
+.then(() => {
+  console.log('MongoDB connected successfully');
+  isMongoConnected = true;
+})
+.catch(err => {
+  console.error('MongoDB connection error:', err);
+  console.log('Falling back to demo mode...');
+  isMongoConnected = false;
+});
 
-console.log('Running with MongoDB database');
+console.log('Running with MongoDB database (with demo fallback)');
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+  const dbStatus = mongoose.connection.readyState === 1 ? 'MongoDB Connected' : 'Demo Mode';
   res.json({ 
     status: 'OK', 
     message: 'LMS API is running',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV,
+    database: dbStatus,
+    mongoState: mongoose.connection.readyState
   });
 });
 
-// Routes
+// Routes - Use real authentication with MongoDB
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/courses', courseRoutes);
@@ -87,7 +110,7 @@ app.get('/health', (req, res) => {
 // Serve static files from React app build (for production)
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
-  
+
   // Handle React routing, return all requests to React app
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
@@ -118,7 +141,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`LMS Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`Mode: ${process.env.NODE_ENV === 'production' ? 'Full-Stack (Frontend + Backend)' : 'API Only'}`);

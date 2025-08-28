@@ -1,43 +1,42 @@
 import axios from 'axios';
 
-// Simple and bulletproof approach
-const currentUrl = window.location.href;
-const hostname = window.location.hostname;
+// Get API URL from environment or detect automatically
+const getApiBaseUrl = () => {
+  // Check if we have a production API URL set
+  if (process.env.REACT_APP_API_URL) {
+    console.log('🌐 Using configured API URL:', process.env.REACT_APP_API_URL);
+    return process.env.REACT_APP_API_URL;
+  }
 
-console.log('🔍 Simple Axios Config Debug:');
-console.log('- Current URL:', currentUrl);
-console.log('- Hostname:', hostname);
+  // Fallback to auto-detection
+  const currentUrl = window.location.href;
+  const hostname = window.location.hostname;
 
-// For Replit development, use the proxy configuration
-let baseURL = '';
+  console.log('🔍 Auto-detecting API URL:');
+  console.log('- Current URL:', currentUrl);
+  console.log('- Hostname:', hostname);
 
-// Check if we're in Replit environment
-if (hostname.includes('replit.dev') || hostname.includes('replit.co')) {
-  baseURL = '';  // Use proxy via package.json proxy setting
-} else if (hostname === 'localhost' || hostname === '127.0.0.1') {
-  baseURL = 'http://localhost:5001';
-} else {
-  baseURL = '/api';  // For production deployments
-}
+  // For development
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:5001/api';
+  }
 
-console.log('- Environment detected, baseURL:', baseURL);
-console.log('✅ FINAL API Base URL:', baseURL);
+  // For Replit
+  if (hostname.includes('replit.dev') || hostname.includes('replit.co')) {
+    return '/api';  // Use proxy
+  }
+
+  // For production deployments (same domain)
+  return '/api';
+};
+
+const baseURL = getApiBaseUrl();
+console.log('✅ Final API Base URL:', baseURL);
 
 // Set the axios default
 axios.defaults.baseURL = baseURL;
 
-// Double-check and force correction if needed
-if (currentUrl.includes('vercel.app') && baseURL !== '/api') {
-  console.log('� Vercel detected - forcing /api');
-  axios.defaults.baseURL = '/api';
-}
-
-if (currentUrl.includes('netlify.app') && baseURL !== '/api') {
-  console.log('� Netlify detected - forcing /api');  
-  axios.defaults.baseURL = '/api';
-}
-
-console.log('🚀 CONFIRMED Final API Base URL:', axios.defaults.baseURL);
+console.log('🚀 Axios configured with baseURL:', axios.defaults.baseURL);
 
 // Request interceptor to add auth token
 axios.interceptors.request.use(
