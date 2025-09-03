@@ -1,0 +1,587 @@
+/* Tech Login Container */
+.tech-login-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  background-size: cover;
+  font-size: 10px;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+  z-index: 1000;
+}
+
+/* Animated Snowfall Effect */
+.tech-login-container::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 100px);
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 130px 80px, #fff, transparent),
+    radial-gradient(2px 2px at 160px 30px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 200px 90px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1px 1px at 240px 50px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 280px 120px, #fff, transparent),
+    radial-gradient(2px 2px at 320px 60px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 360px 100px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 30px 150px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(2px 2px at 70px 20px, #fff, transparent),
+    radial-gradient(1px 1px at 110px 180px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1.5px 1.5px at 150px 10px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1px 1px at 190px 140px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 230px 170px, #fff, transparent),
+    radial-gradient(1px 1px at 270px 5px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 310px 190px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 350px 25px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(2px 2px at 380px 160px, rgba(255,255,255,0.9), transparent);
+  background-repeat: repeat;
+  background-size: 400px 200px;
+  animation: snowfall 12s linear infinite;
+  opacity: 0.8;
+  z-index: -1;
+}
+
+.tech-login-container::after {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 100px);
+  background-image: 
+    radial-gradient(1px 1px at 60px 10px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 100px 50px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 140px 90px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 180px 20px, #fff, transparent),
+    radial-gradient(1px 1px at 220px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(2px 2px at 260px 110px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 300px 40px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 340px 80px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1px 1px at 25px 130px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 65px 170px, #fff, transparent),
+    radial-gradient(1px 1px at 105px 15px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1.5px 1.5px at 145px 160px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 185px 120px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(2px 2px at 225px 35px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1px 1px at 265px 180px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 305px 100px, #fff, transparent),
+    radial-gradient(1px 1px at 345px 5px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(2px 2px at 375px 140px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 15px 75px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1.5px 1.5px at 55px 195px, rgba(255,255,255,0.5), transparent);
+  background-repeat: repeat;
+  background-size: 380px 200px;
+  animation: snowfall2 15s linear infinite;
+  opacity: 0.6;
+  z-index: -1;
+}
+
+.tech-login-container * {
+  box-sizing: border-box;
+}
+
+/* =========================================
+Tech Logo
+========================================= */
+#tech-logo {
+  animation: logo-entry 4s ease-in;
+  width: 500px;
+  margin: 0 auto;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+}
+
+#tech-logo h1 {
+  animation: text-glow 2s ease-out infinite alternate;
+  font-family: 'Ubuntu', sans-serif;
+  color: #00a4a2;
+  font-size: 48px;
+  font-size: 4.8rem;
+  font-weight: bold;
+  text-shadow: 0 0 10px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #000, 0 0 50px #000, 0 0 60px #000, 0 0 70px #000;
+  margin: 0;
+  position: relative;
+}
+
+#tech-logo h1:before {
+  animation: before-glow 2s ease-out infinite alternate;
+  border-left: 535px solid transparent;
+  border-bottom: 10px solid #00a4a2;
+  content: ' ';
+  height: 0;
+  position: absolute;
+  right: -74px;
+  top: -10px;
+  width: 0;
+}
+
+#tech-logo h1:after {
+  animation: after-glow 2s ease-out infinite alternate;
+  border-left: 100px solid transparent;
+  border-top: 16px solid #00a4a2;
+  content: ' ';
+  height: 0;
+  position: absolute;
+  right: -85px;
+  top: 24px;
+  transform: rotate(-47deg);
+  width: 0;
+}
+
+/* =========================================
+Tech Login Form
+========================================= */
+#fade-box {
+  animation: input-entry 3s ease-in;
+  z-index: 4;
+}
+
+.tech-login {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tech-login form {
+  animation: form-entry 3s ease-in-out;
+  background: #111;
+  background: linear-gradient(#004746, #111111);
+  border: 6px solid #00a4a2;
+  box-shadow: 0 0 15px #00fffd;
+  border-radius: 20px;
+  display: inline-block;
+  min-height: 240px;
+  height: auto;
+  margin: 0 auto;
+  position: fixed;
+  top: calc(50vh - 185px);
+  left: calc(50vw - 150px);
+  z-index: 10;
+  width: 300px;
+  transition: 1s all;
+  padding: 12px;
+}
+
+.tech-login form:hover {
+  border: 6px solid #00fffd;
+  box-shadow: 0 0 25px #00fffd;
+  transition: 0.5s all;
+}
+
+/* Tab Navigation */
+.tech-tabs {
+  display: flex;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #00a4a2;
+}
+
+.tech-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #888;
+  padding: 10px;
+  font-family: 'Cabin', helvetica, arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.tech-tab:hover {
+  color: #00fffc;
+  background: rgba(0, 255, 252, 0.1);
+}
+
+.tech-tab.active {
+  color: #00fffc;
+  border-bottom-color: #00fffc;
+  background: rgba(0, 255, 252, 0.1);
+}
+
+/* Input Fields */
+.tech-login input, .tech-login .tech-select {
+  background: #222;
+  background: linear-gradient(#333333, #222222);
+  border: 1px solid #444;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 #000;
+  color: #888;
+  display: block;
+  font-family: 'Cabin', helvetica, arial, sans-serif;
+  font-size: 13px;
+  font-size: 1rem;
+  height: 32px;
+  margin: 12px auto 6px;
+  padding: 0 8px;
+  text-shadow: 0 -1px 0 #000;
+  width: 260px;
+}
+
+.tech-login input:focus, .tech-login .tech-select:focus {
+  animation: box-glow 1s ease-out infinite alternate;
+  background: #0B4252;
+  background: linear-gradient(#333933, #222922);
+  border-color: #00fffc;
+  box-shadow: 0 0 5px rgba(0, 255, 253, 0.2), inset 0 0 5px rgba(0, 255, 253, 0.1), 0 2px 0 #000;
+  color: #efe;
+  outline: none;
+}
+
+.tech-login input:invalid {
+  border: 2px solid red;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.2), inset 0 0 5px rgba(255, 0, 0, 0.1), 0 2px 0 #000;
+}
+
+.tech-login .tech-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%2300fffc' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  padding-right: 30px;
+}
+
+/* Button */
+.tech-login button {
+  animation: input-entry 3s ease-in;
+  background: #222;
+  background: linear-gradient(#333333, #222222);
+  box-sizing: content-box;
+  border: 1px solid #444;
+  border-left-color: #000;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 #000;
+  color: #fff;
+  display: block;
+  font-family: 'Cabin', helvetica, arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  height: 32px;
+  line-height: 32px;
+  margin: 12px auto;
+  padding: 0;
+  position: relative;
+  text-shadow: 0 -1px 0 #000;
+  width: 260px;
+  transition: 1s all;
+  cursor: pointer;
+}
+
+.tech-login button:hover,
+.tech-login button:focus {
+  background: #0C6125;
+  background: linear-gradient(#393939, #292929);
+  color: #00fffc;
+  outline: none;
+  transition: 1s all;
+}
+
+.tech-login button:active {
+  background: #292929;
+  background: linear-gradient(#393939, #292929);
+  box-shadow: 0 1px 0 #000, inset 1px 0 1px #222;
+  top: 1px;
+}
+
+.tech-login button:disabled {
+  background: rgba(34, 34, 34, 0.5);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+}
+
+/* Alert Messages */
+.tech-alert {
+  margin: 8px auto;
+  padding: 8px;
+  border-radius: 5px;
+  font-family: 'Cabin', helvetica, arial, sans-serif;
+  font-size: 11px;
+  width: 320px;
+  text-align: center;
+}
+
+.tech-alert.tech-error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #ff6b6b;
+}
+
+.tech-alert.tech-success {
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  color: #4caf50;
+}
+
+/* Demo Accounts */
+.demo-accounts {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  border: 1px solid rgba(0, 255, 252, 0.3);
+}
+
+.demo-accounts .MuiSelect-select {
+  color: #888 !important;
+  font-family: 'Cabin', helvetica, arial, sans-serif !important;
+  font-size: 10px !important;
+}
+
+/* =========================================
+Rotating Circle
+========================================= */
+#tech-circle1 {
+  animation: circle1 4s linear infinite, circle-entry 6s ease-in-out;
+  background: #000;
+  border-radius: 50%;
+  border: 8px solid #00a4a2;
+  box-shadow: 0 0 0 2px black, 0 0 0 4px #00fffc;
+  height: 450px;
+  width: 450px;
+  position: fixed;
+  top: calc(50vh - 225px);
+  left: calc(50vw - 225px);
+  overflow: hidden;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+#tech-inner-circle1 {
+  background: #000;
+  border-radius: 50%;
+  border: 28px solid #00fffc;
+  height: 390px;
+  width: 390px;
+  margin: 15px;
+}
+
+#tech-inner-circle1:before {
+  content: ' ';
+  width: 195px;
+  height: 390px;
+  background: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#tech-inner-circle1:after {
+  content: ' ';
+  width: 390px;
+  height: 195px;
+  background: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* =========================================
+Hexagon Mesh (Hidden)
+========================================= */
+.hexagons {
+  display: none;
+  visibility: hidden;
+}
+
+/* =========================================
+Animation Keyframes
+========================================= */
+@keyframes logo-entry {
+  0% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes circle-entry {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes input-entry {
+  0% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes form-entry {
+  0% {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    padding: 0;
+  }
+  20% {
+    height: 0;
+    border: 1px solid #00a4a2;
+    width: 0;
+    opacity: 0;
+    padding: 0;
+  }
+  40% {
+    width: 0;
+    height: 240px;
+    border: 6px solid #00a4a2;
+    opacity: 1;
+    padding: 0;
+  }
+  100% {
+    height: auto;
+    min-height: 240px;
+    width: 300px;
+    padding: 12px;
+  }
+}
+
+@keyframes box-glow {
+  0% {
+    border-color: #00b8b6;
+    box-shadow: 0 0 5px rgba(0, 255, 253, 0.2), inset 0 0 5px rgba(0, 255, 253, 0.1), 0 2px 0 #000;
+  }
+  100% {
+    border-color: #00fffc;
+    box-shadow: 0 0 20px rgba(0, 255, 253, 0.6), inset 0 0 10px rgba(0, 255, 253, 0.4), 0 2px 0 #000;
+  }
+}
+
+@keyframes text-glow {
+  0% {
+    color: #00a4a2;
+    text-shadow: 0 0 10px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #000, 0 0 50px #000, 0 0 60px #000, 0 0 70px #000;
+  }
+  100% {
+    color: #00fffc;
+    text-shadow: 0 0 20px rgba(0, 255, 253, 0.6), 0 0 10px rgba(0, 255, 253, 0.4), 0 2px 0 #000;
+  }
+}
+
+@keyframes before-glow {
+  0% {
+    border-bottom: 10px solid #00a4a2;
+  }
+  100% {
+    border-bottom: 10px solid #00fffc;
+  }
+}
+
+@keyframes after-glow {
+  0% {
+    border-top: 16px solid #00a4a2;
+  }
+  100% {
+    border-top: 16px solid #00fffc;
+  }
+}
+
+@keyframes circle1 {
+  0% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tech-login form {
+    width: 85%;
+    margin-top: 100px;
+    min-height: 200px;
+    padding: 10px;
+  }
+  
+  .tech-login input, 
+  .tech-login .tech-select, 
+  .tech-login button {
+    width: 80%;
+  }
+  
+  #tech-logo {
+    width: 90%;
+    top: 30px;
+  }
+  
+  #tech-logo h1 {
+    font-size: 2rem;
+  }
+  
+  #tech-circle1 {
+    width: 320px;
+    height: 320px;
+    position: fixed !important;
+    top: calc(50vh - 160px) !important;
+    left: calc(50vw - 160px) !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+  
+  #tech-inner-circle1 {
+    width: 280px;
+    height: 280px;
+    border-width: 18px;
+    margin: 10px;
+  }
+}
+
+/* =========================================
+Snowfall Animation Keyframes
+========================================= */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-100px) translateX(0px);
+  }
+  100% {
+    transform: translateY(calc(100vh + 100px)) translateX(100px);
+  }
+}
+
+@keyframes snowfall2 {
+  0% {
+    transform: translateY(-100px) translateX(0px);
+  }
+  100% {
+    transform: translateY(calc(100vh + 100px)) translateX(-50px);
+  }
+}

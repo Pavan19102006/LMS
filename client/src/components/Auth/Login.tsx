@@ -1,28 +1,15 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import {
-  Box,
-  Card,
-  CardContent,
-  TextField,
-  Button,
   Typography,
-  Alert,
-  CircularProgress,
-  Tabs,
-  Tab,
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
-  Fade,
-  Slide,
-  Zoom,
   SelectChangeEvent
 } from '@mui/material';
-import { Login as LoginIcon, PersonAdd as SignUpIcon } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import axios from '../../utils/axios';
+import './TechLogin.css';
 
 const Login: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -137,490 +124,258 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleDemoAccountSelect = (e: SelectChangeEvent) => {
+    const selectedAccount = e.target.value as string;
+    if (selectedAccount) {
+      const [email, password] = selectedAccount.split('|');
+      setEmail(email);
+      setPassword(password);
+      setActiveTab(0); // Switch to login tab
+    }
+  };
+
   return (
-    <div className="login-container">
-      
-      {/* Falling Stars Layer */}
-      <div className="falling-stars">
-        <div className="falling-star"></div>
-        <div className="falling-star"></div>
-        <div className="falling-star"></div>
-        <div className="falling-star"></div>
-        <div className="falling-star"></div>
-        <div className="falling-star"></div>
-        <div className="falling-star"></div>
-        <div className="falling-star"></div>
+    <div className="tech-login-container">
+      {/* Tech Logo */}
+      <div id="tech-logo"> 
+        <h1><i>LMS Portal</i></h1>
       </div>
 
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '20px',
-        width: '100%',
-        maxWidth: '500px',
-        zIndex: 1001,
-        position: 'relative'
-      }}>        {/* Main Login/Signup Card */}
-        <Fade in={true} timeout={1000}>
-          <Card sx={{ 
-            minWidth: 450, 
-            maxWidth: 600, 
-            width: '100%',
-            overflow: 'visible',
-            background: 'linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%)',
-            border: '2px solid rgba(255, 215, 0, 0.3)',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.1)'
-          }}>
-          <Zoom in={true} timeout={800} style={{ transitionDelay: '200ms' }}>
-            <Box>
-              <Tabs 
-                value={activeTab} 
-                onChange={handleTabChange} 
-                centered
-                sx={{ 
-                  borderBottom: 1, 
-                  borderColor: 'rgba(255, 215, 0, 0.3)',
-                  '& .MuiTab-root': {
-                    minWidth: 120,
-                    transition: 'all 0.3s ease',
-                    color: '#FFD700',
-                    fontWeight: 'bold',
-                    '&:hover': {
-                      color: '#FFED4A',
-                      textShadow: '0 0 10px rgba(255, 215, 0, 0.5)'
-                    },
-                    '&.Mui-selected': {
-                      color: '#FFD700',
-                      textShadow: '0 0 15px rgba(255, 215, 0, 0.6)'
-                    }
-                  },
-                  '& .MuiTabs-indicator': {
-                    backgroundColor: '#FFD700',
-                    height: '3px',
-                    boxShadow: '0 0 10px rgba(255, 215, 0, 0.5)'
-                  }
-                }}
+      {/* Main Login Section */}
+      <section className="tech-login"> 
+        <form onSubmit={activeTab === 0 ? handleLogin : handleSignup}>	
+          <div id="fade-box">
+            {/* Tab Navigation */}
+            <div className="tech-tabs">
+              <button 
+                type="button"
+                className={activeTab === 0 ? 'tech-tab active' : 'tech-tab'}
+                onClick={() => handleTabChange({} as React.SyntheticEvent, 0)}
               >
-                <Tab 
-                  icon={<LoginIcon sx={{ color: '#FFD700' }} />} 
-                  label="Login" 
-                  iconPosition="start"
-                />
-                <Tab 
-                  icon={<SignUpIcon sx={{ color: '#FFD700' }} />} 
-                  label="Sign Up" 
-                  iconPosition="start"
-                />
-              </Tabs>
-            </Box>
-          </Zoom>
+                Login
+              </button>
+              <button 
+                type="button"
+                className={activeTab === 1 ? 'tech-tab active' : 'tech-tab'}
+                onClick={() => handleTabChange({} as React.SyntheticEvent, 1)}
+              >
+                Sign Up
+              </button>
+            </div>
 
-          <CardContent sx={{ 
-            p: 4, 
-            minHeight: 500,
-            background: 'linear-gradient(145deg, #1e1e1e 0%, #2a2a2a 100%)'
-          }}>
-            <Slide 
-              direction="right" 
-              in={activeTab === 0} 
-              timeout={500}
-              mountOnEnter 
-              unmountOnExit
-            >
-              <Box>
-                <Typography 
-                  variant="h4" 
-                  component="h1" 
-                  gutterBottom 
-                  align="center"
-                  sx={{
-                    color: '#FFD700',
-                    fontWeight: 'bold',
-                    textShadow: '0 0 20px rgba(255, 215, 0, 0.4)',
-                    fontSize: '2.5rem',
-                    background: 'linear-gradient(45deg, #FFD700 30%, #FFED4A 90%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
-                  }}
-                >
-                  Welcome Back
-                </Typography>
-                <Typography 
-                  variant="body2" 
-                  align="center" 
-                  sx={{ 
-                    mb: 3,
-                    color: '#C9B037',
-                    fontSize: '1rem',
-                    fontStyle: 'italic',
-                    textShadow: '0 0 10px rgba(201, 176, 55, 0.3)'
-                  }}
-                >
-                  Sign in to your Learning Management System
-                </Typography>
-                
-                {error && (
-                  <Fade in={!!error}>
-                    <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
-                  </Fade>
-                )}
-                
-                {success && (
-                  <Fade in={!!success}>
-                    <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>
-                  </Fade>
-                )}
-                
-                <Box component="form" onSubmit={handleLogin}>
-                  <TextField
-                    fullWidth
-                    label="Email"
-                    type="email"
-                    value={email}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                    margin="normal"
-                    required
-                    autoFocus
-                    className="gold-textfield"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Password"
-                    type="password"
-                    value={password}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                    margin="normal"
-                    required
-                    className="gold-textfield"
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ 
-                      mt: 3, 
-                      mb: 2,
-                      height: 48,
-                      transition: 'all 0.3s ease',
-                      background: 'linear-gradient(45deg, #FFD700 30%, #FFED4A 90%)',
-                      color: '#1a1a1a',
-                      fontWeight: 'bold',
-                      fontSize: '1.1rem',
-                      textShadow: '1px 1px 2px rgba(0,0,0,0.2)',
-                      border: '2px solid rgba(255, 215, 0, 0.5)',
-                      boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
-                      '&:hover': {
-                        transform: 'translateY(-3px)',
-                        background: 'linear-gradient(45deg, #FFED4A 30%, #FFD700 90%)',
-                        boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)',
-                        border: '2px solid rgba(255, 215, 0, 0.8)',
-                      },
-                      '&:disabled': {
-                        background: 'rgba(255, 215, 0, 0.3)',
-                        color: 'rgba(26, 26, 26, 0.5)',
-                      }
-                    }}
-                    disabled={loading}
-                  >
-                    {loading ? <CircularProgress size={24} sx={{ color: '#1a1a1a' }} /> : '✨ Sign In ✨'}
-                  </Button>
-                </Box>
-              </Box>
-            </Slide>
+            {/* Error and Success Messages */}
+            {error && (
+              <div className="tech-alert tech-error">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="tech-alert tech-success">
+                {success}
+              </div>
+            )}
 
-            <Slide 
-              direction="left" 
-              in={activeTab === 1} 
-              timeout={500}
-              mountOnEnter 
-              unmountOnExit
-            >
-              <Box>
-                <Typography 
-                  variant="h4" 
-                  component="h1" 
-                  gutterBottom 
-                  align="center"
-                  sx={{
-                    color: '#FFD700',
-                    fontWeight: 'bold',
-                    textShadow: '0 0 20px rgba(255, 215, 0, 0.4)',
-                    fontSize: '2.5rem',
-                    background: 'linear-gradient(45deg, #FFD700 30%, #FFED4A 90%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
-                  }}
+            {/* Login Form */}
+            {activeTab === 0 && (
+              <>
+                <input 
+                  type="email" 
+                  name="email" 
+                  id="email" 
+                  placeholder="Email Address" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required 
+                />
+                <input 
+                  type="password" 
+                  name="password" 
+                  id="password" 
+                  placeholder="Password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required 
+                />
+                <button type="submit" disabled={loading}>
+                  {loading ? 'Logging In...' : 'Log In'}
+                </button>
+              </>
+            )}
+
+            {/* Sign Up Form */}
+            {activeTab === 1 && (
+              <>
+                <input 
+                  type="text" 
+                  name="firstName" 
+                  id="firstName" 
+                  placeholder="First Name" 
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required 
+                />
+                <input 
+                  type="text" 
+                  name="lastName" 
+                  id="lastName" 
+                  placeholder="Last Name" 
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required 
+                />
+                <input 
+                  type="email" 
+                  name="email" 
+                  id="signupEmail" 
+                  placeholder="Email Address" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required 
+                />
+                <input 
+                  type="password" 
+                  name="password" 
+                  id="signupPassword" 
+                  placeholder="Password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required 
+                />
+                <select 
+                  name="role" 
+                  id="role" 
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="tech-select"
+                  required
                 >
-                  Join Our Platform
+                  <option value="student">Student</option>
+                  <option value="instructor">Instructor</option>
+                  <option value="content-creator">Content Creator</option>
+                </select>
+                <button type="submit" disabled={loading}>
+                  {loading ? 'Creating Account...' : 'Sign Up'}
+                </button>
+              </>
+            )}
+
+            {/* Demo Accounts Section - Only show on login */}
+            {activeTab === 0 && (
+              <div className="demo-accounts">
+                <Typography variant="h6" sx={{ color: '#00fffc', fontSize: '1.2rem', mb: 2 }}>
+                  Demo Accounts
                 </Typography>
-                <Typography 
-                  variant="body2" 
-                  align="center" 
-                  sx={{ 
-                    mb: 3,
-                    color: '#C9B037',
-                    fontSize: '1rem',
-                    fontStyle: 'italic',
-                    textShadow: '0 0 10px rgba(201, 176, 55, 0.3)'
-                  }}
-                >
-                  Create your account to start learning
-                </Typography>
-                
-                {error && (
-                  <Fade in={!!error}>
-                    <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
-                  </Fade>
-                )}
-                
-                {success && (
-                  <Fade in={!!success}>
-                    <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>
-                  </Fade>
-                )}
-                
-                <Box component="form" onSubmit={handleSignup}>
-                  <Box sx={{ display: 'flex', gap: 2 }}>
-                    <TextField
-                      fullWidth
-                      label="First Name"
-                      value={firstName}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => setFirstName(e.target.value)}
-                      margin="normal"
-                      required
-                      autoFocus
-                      className="gold-textfield"
-                    />
-                    <TextField
-                      fullWidth
-                      label="Last Name"
-                      value={lastName}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) => setLastName(e.target.value)}
-                      margin="normal"
-                      required
-                      className="gold-textfield"
-                    />
-                  </Box>
-                  <TextField
-                    fullWidth
-                    label="Email"
-                    type="email"
-                    value={email}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                    margin="normal"
-                    required
-                    className="gold-textfield"
-                  />
-                  <TextField
-                    fullWidth
-                    label="Password"
-                    type="password"
-                    value={password}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                    margin="normal"
-                    required
-                    helperText="Password must be at least 6 characters"
-                    className="gold-textfield"
+                <FormControl fullWidth size="small">
+                  <Select
+                    value=""
+                    onChange={handleDemoAccountSelect}
+                    displayEmpty
                     sx={{
-                      '& .MuiFormHelperText-root': {
-                        color: '#C9B037 !important',
-                        fontStyle: 'italic'
-                      }
-                    }}
-                  />
-                  <FormControl fullWidth margin="normal" className="gold-textfield">
-                    <InputLabel sx={{ color: '#C9B037', '&.Mui-focused': { color: '#FFD700' } }}>Role</InputLabel>
-                    <Select
-                      value={role}
-                      onChange={(e: SelectChangeEvent) => setRole(e.target.value)}
-                      label="Role"
-                      sx={{
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          transform: 'translateY(-2px)',
-                        },
-                        '& .MuiSelect-select': {
-                          color: '#FFD700'
-                        }
-                      }}
-                    >
-                      <MenuItem value="student" sx={{ color: '#FFD700', '&:hover': { backgroundColor: 'rgba(255, 215, 0, 0.1)' } }}>🎓 Student</MenuItem>
-                      <MenuItem value="instructor" sx={{ color: '#FFD700', '&:hover': { backgroundColor: 'rgba(255, 215, 0, 0.1)' } }}>👨‍🏫 Instructor</MenuItem>
-                      <MenuItem value="content_creator" sx={{ color: '#FFD700', '&:hover': { backgroundColor: 'rgba(255, 215, 0, 0.1)' } }}>✍️ Content Creator</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ 
-                      mt: 3, 
-                      mb: 2,
-                      height: 48,
-                      transition: 'all 0.3s ease',
-                      background: 'linear-gradient(45deg, #FFD700 30%, #FFED4A 90%)',
-                      color: '#1a1a1a',
-                      fontWeight: 'bold',
-                      fontSize: '1.1rem',
-                      textShadow: '1px 1px 2px rgba(0,0,0,0.2)',
-                      border: '2px solid rgba(255, 215, 0, 0.5)',
-                      boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
-                      '&:hover': {
-                        transform: 'translateY(-3px)',
-                        background: 'linear-gradient(45deg, #FFED4A 30%, #FFD700 90%)',
-                        boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)',
-                        border: '2px solid rgba(255, 215, 0, 0.8)',
+                      backgroundColor: '#222',
+                      border: '1px solid #444',
+                      borderRadius: '5px',
+                      color: '#888',
+                      '& .MuiSelect-select': {
+                        padding: '10px',
+                        fontFamily: 'Cabin, helvetica, arial, sans-serif',
+                        fontSize: '13px',
                       },
-                      '&:disabled': {
-                        background: 'rgba(255, 215, 0, 0.3)',
-                        color: 'rgba(26, 26, 26, 0.5)',
-                      }
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        border: 'none',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        border: '1px solid #00fffc',
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        border: '1px solid #00fffc',
+                      },
                     }}
-                    disabled={loading}
                   >
-                    {loading ? <CircularProgress size={24} sx={{ color: '#1a1a1a' }} /> : '🎉 Create Account 🎉'}
-                  </Button>
-                </Box>
-              </Box>
-            </Slide>
-          </CardContent>
-        </Card>
-      </Fade>
+                    <MenuItem value="">Select Demo Account</MenuItem>
+                    <MenuItem value="admin@lms.com|admin123">👑 Admin</MenuItem>
+                    <MenuItem value="instructor@lms.com|instructor123">👨‍🏫 Instructor</MenuItem>
+                    <MenuItem value="student@lms.com|student123">🎓 Student</MenuItem>
+                    <MenuItem value="creator@lms.com|creator123">✍️ Creator</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            )}
+          </div>
+        </form>
 
-      {/* Demo Accounts Selection Box */}
-      <Fade in={true} timeout={800} style={{ transitionDelay: '400ms' }}>
-        <Box 
-          className="demo-accounts-container"
-          sx={{ 
-            p: 2, 
-            textAlign: 'center', 
-            backgroundColor: '#0f0f0f',
-            borderRadius: '12px',
-            background: 'linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%)',
-            border: '1px solid rgba(255, 215, 0, 0.4)',
-            boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.5), 0 4px 20px rgba(255, 215, 0, 0.1)',
-            position: 'relative',
-            overflow: 'hidden',
-            maxWidth: '400px',
-            width: '100%'
-          }}
-        >
-          <Typography 
-            variant="body2" 
-            sx={{ 
-              color: '#FFD700',
-              fontWeight: 'bold',
-              marginBottom: 2,
-              textShadow: '0 0 10px rgba(255, 215, 0, 0.3)',
-              fontSize: '0.85rem'
-            }}
-          >
-            ⚡ Quick Demo Access ⚡
-          </Typography>
-          
-          <FormControl 
-            fullWidth 
-            size="small"
-            className="gold-textfield"
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: 'rgba(255, 215, 0, 0.08)',
-                '& fieldset': {
-                  borderColor: 'rgba(255, 215, 0, 0.4)',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'rgba(255, 215, 0, 0.7)',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#FFD700',
-                },
-              },
-              '& .MuiInputLabel-root': {
-                color: '#C9B037',
-                fontSize: '0.875rem',
-                '&.Mui-focused': {
-                  color: '#FFD700',
-                },
-              },
-              '& .MuiSelect-select': {
-                color: '#FFD700',
-                fontSize: '0.875rem',
-                fontFamily: 'monospace',
-                fontWeight: 'bold',
-              },
-              '& .MuiSvgIcon-root': {
-                color: '#FFD700',
-              },
-            }}
-          >
-            <InputLabel id="demo-account-select-label">Select Demo Account</InputLabel>
-            <Select
-              labelId="demo-account-select-label"
-              value=""
-              label="Select Demo Account"
-              onChange={(e: SelectChangeEvent) => {
-                const selectedAccount = e.target.value as string;
-                if (selectedAccount) {
-                  const [email, password] = selectedAccount.split('|');
-                  setEmail(email);
-                  setPassword(password);
-                  setActiveTab(0); // Switch to login tab
-                }
-              }}
-              MenuProps={{
-                PaperProps: {
-                  sx: {
-                    backgroundColor: '#1a1a1a',
-                    border: '1px solid rgba(255, 215, 0, 0.3)',
-                    '& .MuiMenuItem-root': {
-                      color: '#FFD700',
-                      fontFamily: 'monospace',
-                      fontSize: '0.8rem',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                      },
-                      '&.Mui-selected': {
-                        backgroundColor: 'rgba(255, 215, 0, 0.2)',
-                      },
-                    },
-                  },
-                },
-              }}
-            >
-              <MenuItem value="admin@lms.com|admin123">
-                👑 Admin - admin@lms.com
-              </MenuItem>
-              <MenuItem value="instructor@lms.com|instructor123">
-                👨‍🏫 Instructor - instructor@lms.com
-              </MenuItem>
-              <MenuItem value="student@lms.com|student123">
-                🎓 Student - student@lms.com
-              </MenuItem>
-              <MenuItem value="creator@lms.com|creator123">
-                ✍️ Creator - creator@lms.com
-              </MenuItem>
-            </Select>
-          </FormControl>
-          
-          <Typography 
-            variant="caption" 
-            sx={{ 
-              color: '#C9B037',
-              fontSize: '0.7rem',
-              fontStyle: 'italic',
-              mt: 1,
-              display: 'block',
-              opacity: 0.8
-            }}
-          >
-            Select an account to auto-fill login credentials
-          </Typography>
-        </Box>
-      </Fade>
-      </div>
+        {/* Hexagon Mesh Background */}
+        <div className="hexagons">
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <br />
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <br />
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span> 
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <br />
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <br />
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+        </div>      
+      
+        {/* Rotating Circle */}
+        <div id="tech-circle1">
+          <div id="tech-inner-circle1">
+            <h2> </h2>
+          </div>
+        </div>
+      </section> 
     </div>
   );
 };
