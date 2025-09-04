@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [coursesDialogOpen, setCoursesDialogOpen] = useState(false);
 
-  // Real enrolled courses data from KLU ERP
+  
   const enrolledCourses = [
     {
       id: 1,
@@ -135,7 +135,7 @@ const Dashboard: React.FC = () => {
   };
 
   const handleSubmitAssignmentClick = () => {
-    // Open file manager for assignment submission
+    
     fileInputRef.current?.click();
   };
 
@@ -153,12 +153,12 @@ const Dashboard: React.FC = () => {
   };
 
   const handleEnrolledCoursesClick = () => {
-    // Directly open the courses dialog
+    
     setCoursesDialogOpen(true);
   };
 
   const handleAssignmentsDueClick = () => {
-    // Navigate to assignments page
+    
     navigate('/assignments');
   };
 
@@ -166,12 +166,12 @@ const Dashboard: React.FC = () => {
     const files = Array.from(event.target.files || []);
     if (files.length > 0) {
       console.log('Selected files:', files);
-      // Here you can handle the file upload logic
-      // For now, we'll show an alert with file names
+      
+      
       const fileNames = files.map(file => file.name).join(', ');
       alert(`Selected files: ${fileNames}\n\nNote: Complete assignment submission will be available in the Assignments section.`);
       
-      // Reset the input
+      
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -499,7 +499,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-      {/* Gradient Background as fallback */}
+      {}
       <Box
         sx={{
           position: 'fixed',
@@ -512,7 +512,7 @@ const Dashboard: React.FC = () => {
         }}
       />
       
-      {/* Video Background */}
+      {}
       <Box
         component="video"
         autoPlay
@@ -535,7 +535,7 @@ const Dashboard: React.FC = () => {
         }}
         onError={(e) => {
           console.error('Video failed to load:', e);
-          // Hide video on error
+          
           (e.target as HTMLVideoElement).style.display = 'none';
         }}
         onLoadStart={() => {
@@ -550,7 +550,7 @@ const Dashboard: React.FC = () => {
         Your browser does not support the video tag.
       </Box>
       
-      {/* Overlay for better readability */}
+      {}
       <Box
         sx={{
           position: 'fixed',
@@ -790,7 +790,7 @@ const Dashboard: React.FC = () => {
           </Grid>
         </Box>
         
-        {/* Hidden file input for assignment submission */}
+        {}
         <input
           type="file"
           ref={fileInputRef}
@@ -800,7 +800,7 @@ const Dashboard: React.FC = () => {
           accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.zip,.rar"
         />
 
-        {/* Enrolled Courses Dialog */}
+        {}
         <Dialog 
           open={coursesDialogOpen} 
           onClose={handleCoursesDialogClose}

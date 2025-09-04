@@ -16,7 +16,7 @@ export const useAIChat = (conversationId: string = 'default'): UseAIChat => {
   const [error, setError] = useState<string | null>(null);
   const lastUserMessage = useRef<string>('');
 
-  // Load conversation history on mount
+  
   useEffect(() => {
     const history = aiService.getConversation(conversationId);
     setMessages(history);
@@ -29,7 +29,7 @@ export const useAIChat = (conversationId: string = 'default'): UseAIChat => {
     setIsLoading(true);
     lastUserMessage.current = userMessage;
 
-    // Add user message to UI immediately
+    
     const userMsg: AIMessage = {
       id: Date.now().toString(),
       role: 'user',
@@ -42,7 +42,7 @@ export const useAIChat = (conversationId: string = 'default'): UseAIChat => {
     try {
       const response = await aiService.sendMessage(conversationId, userMessage);
       
-      // Add assistant response to UI
+      
       const assistantMsg: AIMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -55,7 +55,7 @@ export const useAIChat = (conversationId: string = 'default'): UseAIChat => {
       const errorMessage = err instanceof Error ? err.message : 'Failed to get AI response';
       setError(errorMessage);
       
-      // Add error message to chat
+      
       const errorMsg: AIMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -77,7 +77,7 @@ export const useAIChat = (conversationId: string = 'default'): UseAIChat => {
 
   const retryLastMessage = useCallback(async () => {
     if (lastUserMessage.current) {
-      // Remove last assistant message if it was an error
+      
       setMessages(prev => {
         const filtered = prev.filter(msg => 
           !(msg.role === 'assistant' && msg.content.includes('Sorry, I encountered an error'))

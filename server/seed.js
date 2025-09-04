@@ -1,25 +1,18 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
-
 const User = require('./models/User');
 const Course = require('./models/Course');
-
 const seedDatabase = async () => {
   try {
-    // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lms', {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb:
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
     console.log('Connected to MongoDB for seeding');
-
-    // Clear existing data
     await User.deleteMany({});
     await Course.deleteMany({});
     console.log('Cleared existing data');
-
-    // Create demo users
     const demoUsers = [
       {
         email: 'admin@lms.com',
@@ -70,7 +63,6 @@ const seedDatabase = async () => {
         status: 'active'
       }
     ];
-
     const createdUsers = [];
     for (const userData of demoUsers) {
       const user = new User(userData);
@@ -78,11 +70,7 @@ const seedDatabase = async () => {
       createdUsers.push(user);
       console.log(`Created user: ${user.email}`);
     }
-
-    // Find instructors for course creation
     const instructors = createdUsers.filter(user => user.role === 'instructor');
-
-    // Create demo courses
     const demoCourses = [
       {
         title: 'Introduction to Web Development',
@@ -209,26 +197,21 @@ const seedDatabase = async () => {
         tags: ['Python', 'Programming', 'Beginner']
       }
     ];
-
     for (const courseData of demoCourses) {
       const course = new Course(courseData);
       await course.save();
       console.log(`Created course: ${course.title}`);
     }
-
     console.log('Database seeded successfully!');
     console.log('\nDemo accounts created:');
     console.log('Admin: admin@lms.com / admin123');
     console.log('Instructor: instructor@lms.com / instructor123');
     console.log('Student: student@lms.com / student123');
     console.log('Content Creator: creator@lms.com / creator123');
-
     process.exit(0);
   } catch (error) {
     console.error('Error seeding database:', error);
     process.exit(1);
   }
 };
-
-// Run the seed function
 seedDatabase();

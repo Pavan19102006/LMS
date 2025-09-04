@@ -1,5 +1,5 @@
-// AI Configuration
-// Easy setup for different AI providers
+
+
 
 export interface AIConfig {
   provider: 'openai' | 'anthropic' | 'gemini' | 'custom' | 'mock';
@@ -8,9 +8,9 @@ export interface AIConfig {
   baseURL?: string;
 }
 
-// Default configuration - uses mock AI (no API key required)
+
 export const getAIConfig = (): AIConfig => {
-  // You can override these with environment variables
+  
   const provider = (process.env.REACT_APP_AI_PROVIDER as AIConfig['provider']) || 'mock';
   
   switch (provider) {
@@ -48,7 +48,7 @@ export const getAIConfig = (): AIConfig => {
   }
 };
 
-// Educational system prompts for different providers
+
 export const getSystemPrompt = (userContext?: any) => {
   const basePrompt = `You are Ruby, an AI learning assistant for a Learning Management System. 
 Your role is to help students succeed in their academic journey by providing:

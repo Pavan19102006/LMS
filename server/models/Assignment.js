@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const assignmentSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -100,7 +99,7 @@ const assignmentSchema = new mongoose.Schema({
       min: 1
     },
     timeLimit: {
-      type: Number, // in minutes
+      type: Number, 
       default: null
     }
   },
@@ -114,35 +113,23 @@ const assignmentSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
-
-// Check if assignment is overdue
 assignmentSchema.virtual('isOverdue').get(function() {
   return new Date() > this.dueDate;
 });
-
-// Get submission count
 assignmentSchema.virtual('submissionCount').get(function() {
   return this.submissions.length;
 });
-
-// Get graded submission count
 assignmentSchema.virtual('gradedCount').get(function() {
   return this.submissions.filter(sub => sub.status === 'graded').length;
 });
-
-// Calculate average grade
 assignmentSchema.virtual('averageGrade').get(function() {
   const gradedSubmissions = this.submissions.filter(sub => 
     sub.grade && sub.grade.points !== undefined
   );
-  
   if (gradedSubmissions.length === 0) return 0;
-  
   const sum = gradedSubmissions.reduce((acc, sub) => acc + sub.grade.points, 0);
   return Math.round((sum / gradedSubmissions.length) * 100) / 100;
 });
-
-// Pre-save middleware to set isLate flag
 assignmentSchema.pre('save', function(next) {
   this.submissions.forEach(submission => {
     if (submission.submissionDate > this.dueDate) {
@@ -151,8 +138,6 @@ assignmentSchema.pre('save', function(next) {
   });
   next();
 });
-
-// Ensure virtual fields are serialized
 assignmentSchema.set('toJSON', {
   virtuals: true,
   transform: function(doc, ret) {
@@ -160,5 +145,4 @@ assignmentSchema.set('toJSON', {
     return ret;
   }
 });
-
 module.exports = mongoose.model('Assignment', assignmentSchema);

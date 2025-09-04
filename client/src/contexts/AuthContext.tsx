@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const token = localStorage.getItem('token');
     console.log('AuthContext useEffect: token from localStorage:', token);
     if (token) {
-      // Verify token and get user data
+      
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       console.log('AuthContext useEffect: Set auth header, calling fetchUserProfile');
       fetchUserProfile();
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(response.data);
     } catch (error: any) {
       console.error('Failed to fetch user profile:', error);
-      // If profile fetch fails, clear the token
+      
       localStorage.removeItem('token');
       delete axios.defaults.headers.common['Authorization'];
     } finally {

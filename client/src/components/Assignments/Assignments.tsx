@@ -122,10 +122,10 @@ const Assignments: React.FC = () => {
 
   const filterAssignments = (assignments: Assignment[], tabIndex: number) => {
     switch (tabIndex) {
-      case 0: return assignments; // All
-      case 1: return assignments.filter(a => getAssignmentStatus(a) === 'pending'); // Pending
-      case 2: return assignments.filter(a => getAssignmentStatus(a) === 'submitted'); // Submitted
-      case 3: return assignments.filter(a => getAssignmentStatus(a) === 'graded'); // Graded
+      case 0: return assignments; 
+      case 1: return assignments.filter(a => getAssignmentStatus(a) === 'pending'); 
+      case 2: return assignments.filter(a => getAssignmentStatus(a) === 'submitted'); 
+      case 3: return assignments.filter(a => getAssignmentStatus(a) === 'graded'); 
       default: return assignments;
     }
   };
@@ -154,7 +154,7 @@ const Assignments: React.FC = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     setSelectedFiles(prev => [...prev, ...files]);
-    // Reset input value to allow selecting the same file again
+    
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -173,12 +173,12 @@ const Assignments: React.FC = () => {
       const formData = new FormData();
       formData.append('text', submissionText);
       
-      // Add each file to the form data
+      
       selectedFiles.forEach((file, index) => {
         formData.append(`files`, file);
       });
 
-      // API call to submit assignment
+      
       await axios.post(
         `/api/assignments/${selectedAssignment._id}/submit`,
         formData,
@@ -189,7 +189,7 @@ const Assignments: React.FC = () => {
         }
       );
 
-      // Update assignments list to reflect submission
+      
       await fetchAssignments();
       
       setSubmitDialogOpen(false);
@@ -197,7 +197,7 @@ const Assignments: React.FC = () => {
       setSubmissionText('');
       setSelectedFiles([]);
       
-      // Show success message
+      
       alert('Assignment submitted successfully!');
       
     } catch (err: any) {
@@ -242,7 +242,7 @@ const Assignments: React.FC = () => {
           </Alert>
         )}
 
-        {/* Assignment Tabs */}
+        {}
         <Paper sx={{ mb: 3 }}>
           <Tabs
             value={activeTab}
@@ -265,7 +265,7 @@ const Assignments: React.FC = () => {
           </Tabs>
         </Paper>
 
-        {/* Assignments List */}
+        {}
         {filteredAssignments.length === 0 ? (
           <Paper sx={{ p: 4, textAlign: 'center' }}>
             <AssignmentIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
@@ -365,7 +365,7 @@ const Assignments: React.FC = () => {
                               color="success"
                               size="small"
                               onClick={() => {
-                                // Show detailed grade/feedback
+                                
                                 console.log('View grade for assignment:', assignment._id);
                               }}
                             >
@@ -382,7 +382,7 @@ const Assignments: React.FC = () => {
           </Grid>
         )}
 
-        {/* Assignment Submission Dialog */}
+        {}
         <Dialog 
           open={submitDialogOpen} 
           onClose={() => setSubmitDialogOpen(false)}
@@ -397,7 +397,7 @@ const Assignments: React.FC = () => {
           </DialogTitle>
           <DialogContent>
             <Box sx={{ mt: 2 }}>
-              {/* Assignment Details */}
+              {}
               <Paper sx={{ p: 2, mb: 3, bgcolor: 'background.default' }}>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
                   <strong>Course:</strong> {selectedAssignment?.course.title}
@@ -413,7 +413,7 @@ const Assignments: React.FC = () => {
                 </Typography>
               </Paper>
 
-              {/* Submission Text */}
+              {}
               <TextField
                 fullWidth
                 multiline
@@ -425,7 +425,7 @@ const Assignments: React.FC = () => {
                 sx={{ mb: 3 }}
               />
 
-              {/* File Upload Section */}
+              {}
               <Box sx={{ mb: 3 }}>
                 <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
                   <AttachFile sx={{ mr: 1 }} />
@@ -450,7 +450,7 @@ const Assignments: React.FC = () => {
                   accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.zip,.rar"
                 />
 
-                {/* Selected Files List */}
+                {}
                 {selectedFiles.length > 0 && (
                   <Paper sx={{ p: 2 }}>
                     <Typography variant="subtitle2" gutterBottom>
@@ -477,7 +477,7 @@ const Assignments: React.FC = () => {
                 )}
               </Box>
 
-              {/* Upload Progress */}
+              {}
               {uploading && (
                 <Box sx={{ mb: 2 }}>
                   <Typography variant="body2" gutterBottom>

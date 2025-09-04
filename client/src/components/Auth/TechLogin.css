@@ -1,4 +1,4 @@
-/* Tech Login Container */
+
 .tech-login-container {
   position: fixed;
   top: 0;
@@ -14,7 +14,7 @@
   z-index: 1000;
 }
 
-/* Animated Snowfall Effect */
+
 .tech-login-container::before {
   content: '';
   position: absolute;
@@ -89,9 +89,8 @@
   box-sizing: border-box;
 }
 
-/* =========================================
-Tech Logo
-========================================= */
+
+
 #tech-logo {
   animation: logo-entry 4s ease-in;
   width: 500px;
@@ -140,9 +139,8 @@ Tech Logo
   width: 0;
 }
 
-/* =========================================
-Tech Login Form
-========================================= */
+
+
 #fade-box {
   animation: input-entry 3s ease-in;
   z-index: 4;
@@ -183,7 +181,7 @@ Tech Login Form
   transition: 0.5s all;
 }
 
-/* Tab Navigation */
+
 .tech-tabs {
   display: flex;
   margin-bottom: 15px;
@@ -215,7 +213,7 @@ Tech Login Form
   background: rgba(0, 255, 252, 0.1);
 }
 
-/* Input Fields */
+
 .tech-login input, .tech-login .tech-select {
   background: #222;
   background: linear-gradient(#333333, #222222);
@@ -258,7 +256,7 @@ Tech Login Form
   padding-right: 30px;
 }
 
-/* Button */
+
 .tech-login button {
   animation: input-entry 3s ease-in;
   background: #222;
@@ -306,7 +304,7 @@ Tech Login Form
   cursor: not-allowed;
 }
 
-/* Alert Messages */
+
 .tech-alert {
   margin: 8px auto;
   padding: 8px;
@@ -329,7 +327,7 @@ Tech Login Form
   color: #4caf50;
 }
 
-/* Demo Accounts */
+
 .demo-accounts {
   margin-top: 15px;
   padding: 10px;
@@ -344,9 +342,8 @@ Tech Login Form
   font-size: 10px !important;
 }
 
-/* =========================================
-Rotating Circle
-========================================= */
+
+
 #tech-circle1 {
   animation: circle1 4s linear infinite, circle-entry 6s ease-in-out;
   background: #000;
@@ -392,17 +389,15 @@ Rotating Circle
   left: 0;
 }
 
-/* =========================================
-Hexagon Mesh (Hidden)
-========================================= */
+
+
 .hexagons {
   display: none;
   visibility: hidden;
 }
 
-/* =========================================
-Animation Keyframes
-========================================= */
+
+
 @keyframes logo-entry {
   0% {
     opacity: 0;
@@ -523,7 +518,7 @@ Animation Keyframes
   }
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .tech-login form {
     width: 85%;
@@ -565,9 +560,8 @@ Animation Keyframes
   }
 }
 
-/* =========================================
-Snowfall Animation Keyframes
-========================================= */
+
+
 @keyframes snowfall {
   0% {
     transform: translateY(-100px) translateX(0px);

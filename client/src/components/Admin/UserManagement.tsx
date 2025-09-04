@@ -49,7 +49,7 @@ const UserManagement: React.FC = () => {
     status: 'active' as User['status'],
   });
 
-  // Mock data - in real app, this would come from API
+  
   useEffect(() => {
     const mockUsers: User[] = [
       {
@@ -149,14 +149,14 @@ const UserManagement: React.FC = () => {
 
   const handleSaveUser = () => {
     if (editingUser) {
-      // Update existing user
+      
       setUsers(users.map(user => 
         user.id === editingUser.id 
           ? { ...user, ...formData }
           : user
       ));
     } else {
-      // Add new user
+      
       const newUser: User = {
         id: Date.now().toString(),
         ...formData,
@@ -259,7 +259,7 @@ const UserManagement: React.FC = () => {
           <Add />
         </Fab>
 
-        {/* User Dialog */}
+        {}
         <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
           <DialogTitle>
             {editingUser ? 'Edit User' : 'Add New User'}

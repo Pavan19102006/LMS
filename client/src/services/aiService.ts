@@ -1,5 +1,5 @@
-// AI Service for Ruby Assistant
-// This file handles different AI integration options
+
+
 
 import { getAIConfig, getSystemPrompt } from '../config/aiConfig';
 
@@ -25,14 +25,14 @@ class AIService {
     this.config = config;
   }
 
-  // OpenAI Integration
+  
   async sendToOpenAI(messages: AIMessage[]): Promise<string> {
     if (!this.config.apiKey) {
       throw new Error('OpenAI API key not configured');
     }
 
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const response = await fetch('https:
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,14 +68,14 @@ class AIService {
     }
   }
 
-  // Anthropic Claude Integration
+  
   async sendToAnthropic(messages: AIMessage[]): Promise<string> {
     if (!this.config.apiKey) {
       throw new Error('Anthropic API key not configured');
     }
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('https:
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ class AIService {
     }
   }
 
-  // Google Gemini Integration
+  
   async sendToGemini(messages: AIMessage[]): Promise<string> {
     console.log('🔷 Ruby AI: Sending to Gemini API...');
     
@@ -115,7 +115,7 @@ class AIService {
     }
 
     try {
-      // Prepare conversation context for Gemini
+      
       const conversationText = messages.map(msg => 
         `${msg.role === 'user' ? 'Student' : 'Ruby'}: ${msg.content}`
       ).join('\n');
@@ -125,7 +125,7 @@ class AIService {
 
       console.log('🔷 Ruby AI: Sending request to Gemini 1.5 Flash...');
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.config.apiKey}`, {
+      const response = await fetch(`https:
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -185,7 +185,7 @@ class AIService {
     }
   }
 
-  // Custom Backend Integration
+  
   async sendToCustomBackend(messages: AIMessage[]): Promise<string> {
     try {
       const response = await fetch('/api/ai/chat', {
@@ -213,7 +213,7 @@ class AIService {
     }
   }
 
-  // Mock AI for Development/Testing
+  
   async sendToMockAI(messages: AIMessage[]): Promise<string> {
     const mockResponses = [
       "Hello! I'm Ruby, your AI learning assistant. How can I help you with your studies today?",
@@ -225,12 +225,12 @@ class AIService {
       "Great job on working through this problem! Keep up the excellent work!"
     ];
 
-    // Simulate API delay
+    
     await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
 
     const lastMessage = messages[messages.length - 1]?.content.toLowerCase() || '';
     
-    // Simple keyword-based responses for demo
+    
     if (lastMessage.includes('assignment') || lastMessage.includes('homework')) {
       return "I'd love to help you with your assignment! Can you share what subject it's for and what specific part you're struggling with? I can provide study strategies, help break down complex problems, or suggest resources.";
     } else if (lastMessage.includes('study') || lastMessage.includes('learn')) {
@@ -244,7 +244,7 @@ class AIService {
     return mockResponses[Math.floor(Math.random() * mockResponses.length)];
   }
 
-  // Main send method that routes to the configured provider
+  
   async sendMessage(conversationId: string, userMessage: string): Promise<string> {
     const messageId = Date.now().toString();
     const userMsg: AIMessage = {
@@ -254,7 +254,7 @@ class AIService {
       timestamp: new Date()
     };
 
-    // Get or create conversation
+    
     let conversation = this.conversations.get(conversationId) || [];
     conversation.push(userMsg);
 
@@ -278,7 +278,7 @@ class AIService {
           response = await this.sendToMockAI(conversation);
       }
 
-      // Add assistant response to conversation
+      
       const assistantMsg: AIMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -287,14 +287,14 @@ class AIService {
       };
       conversation.push(assistantMsg);
 
-      // Store updated conversation
+      
       this.conversations.set(conversationId, conversation);
 
       return response;
     } catch (error) {
       console.error('AI Service Error:', error);
       
-      // Provide user-friendly error messages
+      
       let fallbackMessage = "I'm having trouble connecting right now. ";
       
       if (error instanceof Error) {
@@ -313,23 +313,23 @@ class AIService {
     }
   }
 
-  // Get conversation history
+  
   getConversation(conversationId: string): AIMessage[] {
     return this.conversations.get(conversationId) || [];
   }
 
-  // Clear conversation
+  
   clearConversation(conversationId: string): void {
     this.conversations.delete(conversationId);
   }
 
-  // Update configuration
+  
   updateConfig(newConfig: Partial<AIServiceConfig>): void {
     this.config = { ...this.config, ...newConfig };
   }
 }
 
-// Create and export AI service instance
+
 const config = getAIConfig();
 export const aiService = new AIService(config);
 

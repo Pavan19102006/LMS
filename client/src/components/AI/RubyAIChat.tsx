@@ -45,19 +45,19 @@ const RubyAIChat: React.FC<RubyAIChatProps> = ({ open, onClose }) => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === 'dark';
 
-  // Auto-scroll to bottom when new messages arrive
+  
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Focus input when dialog opens
+  
   useEffect(() => {
     if (open) {
       setTimeout(() => {
         inputRef.current?.focus();
       }, 100);
       
-      // Log Ruby initialization
+      
       console.log('🤖 Ruby AI Assistant initialized with Gemini AI');
     }
   }, [open]);
@@ -152,7 +152,7 @@ const RubyAIChat: React.FC<RubyAIChatProps> = ({ open, onClose }) => {
         height: '100%',
         bgcolor: isDarkMode ? '#0d1117' : 'background.default'
       }}>
-        {/* Chat Messages */}
+        {}
         <Box sx={{ 
           flex: 1, 
           overflow: 'auto', 
@@ -183,7 +183,7 @@ const RubyAIChat: React.FC<RubyAIChatProps> = ({ open, onClose }) => {
                 assignment help, course recommendations, or any academic questions!
               </Typography>
               
-              {/* Quick Prompt Buttons */}
+              {}
               <Typography variant="subtitle2" sx={{ mt: 3, mb: 2 }} color={isDarkMode ? '#ffffff' : 'text.primary'}>
                 Quick prompts to get started:
               </Typography>
@@ -280,7 +280,7 @@ const RubyAIChat: React.FC<RubyAIChatProps> = ({ open, onClose }) => {
                 </Fade>
               ))}
               
-              {/* Loading indicator */}
+              {}
               {isLoading && (
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -314,7 +314,7 @@ const RubyAIChat: React.FC<RubyAIChatProps> = ({ open, onClose }) => {
                 </Box>
               )}
 
-              {/* Error retry button */}
+              {}
               {error && (
                 <Box sx={{ textAlign: 'center', mb: 2 }}>
                   <Button
@@ -333,7 +333,7 @@ const RubyAIChat: React.FC<RubyAIChatProps> = ({ open, onClose }) => {
           <div ref={messagesEndRef} />
         </Box>
 
-        {/* Input Area */}
+        {}
         <Box sx={{ 
           p: 2, 
           borderTop: '1px solid', 

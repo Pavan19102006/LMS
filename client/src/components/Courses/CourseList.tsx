@@ -35,7 +35,7 @@ const CourseList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Real KLU courses data from ERP system
+  
   useEffect(() => {
     const kluCourses: Course[] = [
       {
@@ -151,12 +151,12 @@ const CourseList: React.FC = () => {
   };
 
   const handleEnroll = (courseId: string) => {
-    // In real app, this would make an API call
+    
     console.log('Enrolling in course:', courseId);
   };
 
   const handleCreateCourse = () => {
-    // Navigate to course creation form
+    
     console.log('Creating new course');
   };
 

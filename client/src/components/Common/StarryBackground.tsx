@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 const StarryBackground: React.FC = () => {
   return (
     <>
-      {/* Starry background layers */}
+      {}
       <Box
         sx={{
           position: 'fixed',
@@ -17,7 +17,7 @@ const StarryBackground: React.FC = () => {
         }}
       />
       
-      {/* Primary star layer */}
+      {}
       <Box
         sx={{
           position: 'fixed',
@@ -50,7 +50,7 @@ const StarryBackground: React.FC = () => {
         }}
       />
 
-      {/* Secondary star layer for cosmic depth */}
+      {}
       <Box
         sx={{
           position: 'fixed',
@@ -79,7 +79,7 @@ const StarryBackground: React.FC = () => {
         }}
       />
 
-      {/* Falling stars container */}
+      {}
       <Box
         className="falling-stars"
         sx={{

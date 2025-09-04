@@ -33,7 +33,7 @@ const Login: React.FC = () => {
     setActiveTab(newValue);
     setError('');
     setSuccess('');
-    // Clear form fields when switching tabs
+    
     setEmail('');
     setPassword('');
     setFirstName('');
@@ -55,7 +55,7 @@ const Login: React.FC = () => {
       await login(email, password);
       console.log('✅ Login completed successfully');
       
-      // Set success message and navigate after a short delay
+      
       setSuccess('Login successful! Redirecting to dashboard...');
       setTimeout(() => {
         navigate('/dashboard', { replace: true });
@@ -101,7 +101,7 @@ const Login: React.FC = () => {
       console.log('✅ Registration Success:', response.data);
 
       setSuccess('Account created successfully! Please log in.');
-      setActiveTab(0); // Switch to login tab
+      setActiveTab(0); 
       setEmail('');
       setPassword('');
       setFirstName('');
@@ -130,22 +130,22 @@ const Login: React.FC = () => {
       const [email, password] = selectedAccount.split('|');
       setEmail(email);
       setPassword(password);
-      setActiveTab(0); // Switch to login tab
+      setActiveTab(0); 
     }
   };
 
   return (
     <div className="tech-login-container">
-      {/* Tech Logo */}
+      {}
       <div id="tech-logo"> 
         <h1><i>LMS Portal</i></h1>
       </div>
 
-      {/* Main Login Section */}
+      {}
       <section className="tech-login"> 
         <form onSubmit={activeTab === 0 ? handleLogin : handleSignup}>	
           <div id="fade-box">
-            {/* Tab Navigation */}
+            {}
             <div className="tech-tabs">
               <button 
                 type="button"
@@ -163,7 +163,7 @@ const Login: React.FC = () => {
               </button>
             </div>
 
-            {/* Error and Success Messages */}
+            {}
             {error && (
               <div className="tech-alert tech-error">
                 {error}
@@ -175,7 +175,7 @@ const Login: React.FC = () => {
               </div>
             )}
 
-            {/* Login Form */}
+            {}
             {activeTab === 0 && (
               <>
                 <input 
@@ -202,7 +202,7 @@ const Login: React.FC = () => {
               </>
             )}
 
-            {/* Sign Up Form */}
+            {}
             {activeTab === 1 && (
               <>
                 <input 
@@ -259,7 +259,7 @@ const Login: React.FC = () => {
               </>
             )}
 
-            {/* Demo Accounts Section - Only show on login */}
+            {}
             {activeTab === 0 && (
               <div className="demo-accounts">
                 <Typography variant="h6" sx={{ color: '#00fffc', fontSize: '1.2rem', mb: 2 }}>
@@ -303,7 +303,7 @@ const Login: React.FC = () => {
           </div>
         </form>
 
-        {/* Hexagon Mesh Background */}
+        {}
         <div className="hexagons">
           <span>&#x2B22;</span>
           <span>&#x2B22;</span>
@@ -369,7 +369,7 @@ const Login: React.FC = () => {
           <span>&#x2B22;</span>
         </div>      
       
-        {/* Rotating Circle */}
+        {}
         <div id="tech-circle1">
           <div id="tech-inner-circle1">
             <h2> </h2>

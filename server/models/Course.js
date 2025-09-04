@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const courseSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -59,7 +58,7 @@ const courseSchema = new mongoose.Schema({
       title: String,
       description: String,
       videoUrl: String,
-      duration: Number, // in minutes
+      duration: Number, 
       resources: [{
         title: String,
         type: {
@@ -126,29 +125,20 @@ const courseSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
-
-// Calculate average rating
 courseSchema.methods.updateAverageRating = function() {
   if (this.ratings.length === 0) {
     this.averageRating = 0;
     return;
   }
-  
   const sum = this.ratings.reduce((acc, rating) => acc + rating.rating, 0);
   this.averageRating = Math.round((sum / this.ratings.length) * 10) / 10;
 };
-
-// Get enrollment count
 courseSchema.virtual('enrollmentCount').get(function() {
   return this.enrolledStudents.length;
 });
-
-// Check if course is full
 courseSchema.virtual('isFull').get(function() {
   return this.enrolledStudents.length >= this.maxStudents;
 });
-
-// Ensure virtual fields are serialized
 courseSchema.set('toJSON', {
   virtuals: true,
   transform: function(doc, ret) {
@@ -156,5 +146,4 @@ courseSchema.set('toJSON', {
     return ret;
   }
 });
-
 module.exports = mongoose.model('Course', courseSchema);

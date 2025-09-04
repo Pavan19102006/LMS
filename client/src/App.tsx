@@ -21,7 +21,7 @@ import ProtectedRoute from './components/Common/ProtectedRoute';
 import Navbar from './components/Layout/Navbar';
 import './App.css';
 
-// Create a system-aware theme that adapts to light/dark mode
+
 const useSystemTheme = () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   
@@ -62,7 +62,7 @@ const useSystemTheme = () => {
   return theme;
 };
 
-// Layout component that conditionally renders navbar
+
 const AppLayout = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
@@ -80,7 +80,7 @@ const AppLayout = () => {
 
   return (
     <div className="App">
-      {/* Add starry background for authenticated users (not on login page) */}
+      {}
       {!isLoginPage && isAuthenticated && <StarryBackground />}
       
       {!isLoginPage && <Navbar />}
@@ -139,7 +139,7 @@ const AppLayout = () => {
         </Routes>
       </main>
 
-      {/* Ruby AI Assistant Floating Action Button */}
+      {}
       {!isLoginPage && (
         <>
           <Fab
@@ -165,7 +165,7 @@ const AppLayout = () => {
             <RubyIcon sx={{ color: 'white' }} />
           </Fab>
 
-          {/* Ruby AI Dialog - Placeholder for future AI integration */}
+          {}
           <RubyAIChat
             open={rubyDialogOpen}
             onClose={handleRubyDialogClose}

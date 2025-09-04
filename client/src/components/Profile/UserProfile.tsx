@@ -39,7 +39,7 @@ const UserProfile: React.FC = () => {
   const [success, setSuccess] = useState('');
   const [showPasswordDialog, setShowPasswordDialog] = useState(false);
 
-  // Form state
+  
   const [firstName, setFirstName] = useState(user?.firstName || '');
   const [lastName, setLastName] = useState(user?.lastName || '');
   const [email, setEmail] = useState(user?.email || '');
@@ -49,7 +49,7 @@ const UserProfile: React.FC = () => {
 
   const handleEditToggle = () => {
     if (isEditing) {
-      // Reset form data if canceling
+      
       setFirstName(user?.firstName || '');
       setLastName(user?.lastName || '');
       setEmail(user?.email || '');
@@ -79,7 +79,7 @@ const UserProfile: React.FC = () => {
       setSuccess('Profile updated successfully!');
       setIsEditing(false);
       
-      // Refresh the page to update the user data in context
+      
       setTimeout(() => {
         window.location.reload();
       }, 1500);
@@ -199,7 +199,7 @@ const UserProfile: React.FC = () => {
           </Box>
 
           <Grid container spacing={3}>
-            {/* Avatar Section */}
+            {}
             <Grid item xs={12} md={4}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Box sx={{ position: 'relative', mb: 2 }}>
@@ -241,7 +241,7 @@ const UserProfile: React.FC = () => {
               </Box>
             </Grid>
 
-            {/* Profile Details */}
+            {}
             <Grid item xs={12} md={8}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
@@ -316,7 +316,7 @@ const UserProfile: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Security Section */}
+      {}
       <Card>
         <CardContent>
           <Typography variant="h6" sx={{ mb: 3 }}>
@@ -342,7 +342,7 @@ const UserProfile: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Password Change Dialog */}
+      {}
       <Dialog open={showPasswordDialog} onClose={() => setShowPasswordDialog(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Change Password</DialogTitle>
         <DialogContent>

@@ -19,7 +19,7 @@ import { PlayCircle, Assignment, People } from '@mui/icons-material';
 const CourseDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  // Mock course data - in real app, this would come from API based on id
+  
   const course = {
     id: id,
     title: 'Introduction to Web Development',
@@ -57,7 +57,7 @@ const CourseDetail: React.FC = () => {
     <Container maxWidth="lg">
       <Box sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={4}>
-          {/* Course Overview */}
+          {}
           <Grid item xs={12} md={8}>
             <Card>
               <CardContent>
@@ -92,7 +92,7 @@ const CourseDetail: React.FC = () => {
               </CardContent>
             </Card>
 
-            {/* Course Content */}
+            {}
             <Card sx={{ mt: 3 }}>
               <CardContent>
                 <Typography variant="h5" component="h2" gutterBottom>
@@ -126,9 +126,9 @@ const CourseDetail: React.FC = () => {
             </Card>
           </Grid>
 
-          {/* Sidebar */}
+          {}
           <Grid item xs={12} md={4}>
-            {/* Progress Card */}
+            {}
             <Card sx={{ mb: 3 }}>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
@@ -148,7 +148,7 @@ const CourseDetail: React.FC = () => {
               </CardContent>
             </Card>
 
-            {/* Assignments Card */}
+            {}
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
@@ -177,7 +177,7 @@ const CourseDetail: React.FC = () => {
               </CardContent>
             </Card>
 
-            {/* Class Info */}
+            {}
             <Card sx={{ mt: 3 }}>
               <CardContent>
                 <Typography variant="h6" gutterBottom>

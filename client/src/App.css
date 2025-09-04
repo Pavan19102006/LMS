@@ -1,4 +1,4 @@
-/* Global reset for full-screen login */
+
 html, body {
   margin: 0;
   padding: 0;
@@ -7,7 +7,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* CSS variables for theme adaptation */
+
 :root {
   --login-bg-light: linear-gradient(135deg, 
     #667eea 0%, 
@@ -35,7 +35,7 @@ html, body {
   }
 }
 
-/* Fallback for browsers that don't support prefers-color-scheme */
+
 :root {
   --login-bg: var(--login-bg-light);
 }
@@ -54,15 +54,15 @@ html, body {
 .main-content {
   flex: 1;
   padding: 20px;
-  margin-top: 64px; /* Account for navbar height */
+  margin-top: 64px; 
   position: relative;
   z-index: 1;
-  background: rgba(0, 0, 0, 0.1); /* Subtle dark overlay for content readability */
+  background: rgba(0, 0, 0, 0.1); 
   backdrop-filter: blur(1px);
   min-height: calc(100vh - 64px);
 }
 
-/* Login page should take full viewport */
+
 .login-container {
   position: fixed;
   top: 0;
@@ -77,7 +77,7 @@ html, body {
   z-index: 1000;
 }
 
-/* Seamless starry background - MORE STARS (no animation) */
+
 .login-container::before {
   content: '';
   position: absolute;
@@ -107,7 +107,7 @@ html, body {
   opacity: 0.6;
 }
 
-/* Secondary star layer for cosmic depth - MORE STARS (no animation) */
+
 .login-container::after {
   content: '';
   position: absolute;
@@ -133,7 +133,7 @@ html, body {
   opacity: 0.4;
 }
 
-/* Falling stars container */
+
 .falling-stars {
   position: absolute;
   top: 0;
@@ -144,7 +144,7 @@ html, body {
   overflow: hidden;
 }
 
-/* Individual falling star */
+
 .falling-star {
   position: absolute;
   width: 2px;
@@ -155,7 +155,7 @@ html, body {
   animation: fallingStar 3s linear infinite;
 }
 
-/* Staggered falling star animations */
+
 .falling-star:nth-child(1) {
   left: 10%;
   animation-delay: 0s;
@@ -204,7 +204,7 @@ html, body {
   animation-duration: 3.9s;
 }
 
-/* Falling star animation */
+
 @keyframes fallingStar {
   0% {
     top: -10px;
@@ -226,7 +226,7 @@ html, body {
   }
 }
 
-/* Gentle star twinkling animation for luxury effect */
+
 @keyframes gentleStarTwinkle {
   0% {
     opacity: 0.4;
@@ -266,7 +266,7 @@ html, body {
   overflow: visible;
 }
 
-/* Dark theme adaptation for login card */
+
 @media (prefers-color-scheme: dark) {
   .login-container .MuiCard-root {
     background: rgba(30, 30, 30, 0.95);
@@ -281,7 +281,7 @@ html, body {
               0 20px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Dark theme hover effects */
+
 @media (prefers-color-scheme: dark) {
   .login-container .MuiCard-root:hover {
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 
@@ -301,7 +301,7 @@ html, body {
   }
 }
 
-/* Dashboard card styles for starry background */
+
 .dashboard-card {
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(10px);
@@ -310,7 +310,7 @@ html, body {
   transition: all 0.3s ease;
 }
 
-/* Dark theme adaptation for dashboard cards */
+
 @media (prefers-color-scheme: dark) {
   .dashboard-card {
     background: rgba(30, 30, 30, 0.95) !important;
@@ -325,14 +325,14 @@ html, body {
   border-color: rgba(255, 215, 0, 0.3);
 }
 
-/* Dark theme hover effects for dashboard cards */
+
 @media (prefers-color-scheme: dark) {
   .dashboard-card:hover {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.2);
   }
 }
 
-/* Navbar styling over starry background */
+
 .MuiAppBar-root {
   background: rgba(25, 25, 25, 0.95) !important;
   backdrop-filter: blur(10px);
@@ -340,7 +340,7 @@ html, body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 215, 0, 0.05);
 }
 
-/* Light theme navbar */
+
 @media (prefers-color-scheme: light) {
   .MuiAppBar-root {
     background: rgba(255, 255, 255, 0.95) !important;
@@ -377,7 +377,7 @@ html, body {
   padding: 20px;
 }
 
-/* Tab animation styles */
+
 .MuiTabs-root {
   overflow: visible;
 }
@@ -396,7 +396,7 @@ html, body {
   transform: translateY(-2px);
 }
 
-/* Form field hover animations */
+
 .MuiTextField-root .MuiOutlinedInput-root {
   transition: all 0.3s ease;
 }
@@ -411,7 +411,7 @@ html, body {
   box-shadow: 0 6px 12px rgba(25, 118, 210, 0.2);
 }
 
-/* Button animations */
+
 .MuiButton-root {
   transition: all 0.3s ease;
   position: relative;
@@ -438,7 +438,7 @@ html, body {
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-/* Card entrance animation */
+
 @keyframes cardEntrance {
   0% {
     opacity: 0;
@@ -450,7 +450,7 @@ html, body {
   }
 }
 
-/* Responsive design for full-screen login */
+
 @media (max-width: 768px) {
   .login-container {
     padding: 10px;
@@ -473,18 +473,18 @@ html, body {
   }
 }
 
-/* Ensure no interference from material-ui defaults */
+
 .login-container .MuiCssBaseline-root {
   margin: 0;
   padding: 0;
 }
 
-/* Enhanced login card animations */
+
 .login-container .MuiCard-root {
   animation: cardEntrance 1s ease-out;
 }
 
-/* Form slide animations */
+
 @keyframes slideInRight {
   from {
     opacity: 0;
@@ -507,7 +507,7 @@ html, body {
   }
 }
 
-/* Success/Error alert animations */
+
 .MuiAlert-root {
   animation: alertSlideIn 0.5s ease-out;
 }
@@ -523,7 +523,7 @@ html, body {
   }
 }
 
-/* Gold text glow animation for demo accounts */
+
 @keyframes goldGlow {
   0%, 100% {
     text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
@@ -533,7 +533,7 @@ html, body {
   }
 }
 
-/* Demo accounts container animation */
+
 @keyframes demoAccountsFloat {
   0%, 100% {
     transform: translateY(0px);
@@ -543,7 +543,7 @@ html, body {
   }
 }
 
-/* Gold shimmer effect */
+
 @keyframes goldShimmer {
   0% {
     background-position: -100% 0;
@@ -553,7 +553,7 @@ html, body {
   }
 }
 
-/* Enhanced demo accounts styling */
+
 .demo-accounts-container {
   animation: demoAccountsFloat 3s ease-in-out infinite;
 }
@@ -570,7 +570,7 @@ html, body {
   animation: goldShimmer 3s ease-in-out infinite, goldGlow 2s ease-in-out infinite;
 }
 
-/* Gold-themed input fields */
+
 .gold-textfield .MuiOutlinedInput-root {
   transition: all 0.3s ease !important;
   background-color: rgba(255, 215, 0, 0.05) !important;
@@ -610,7 +610,7 @@ html, body {
   color: #FFD700 !important;
 }
 
-/* Gold-themed alerts */
+
 .gold-alert.MuiAlert-standardError {
   background-color: rgba(244, 67, 54, 0.1) !important;
   border: 1px solid rgba(244, 67, 54, 0.3) !important;
@@ -627,7 +627,7 @@ html, body {
   color: inherit !important;
 }
 
-/* Ruby AI Floating Button Styles */
+
 .ruby-fab {
   position: fixed !important;
   bottom: 24px !important;
@@ -639,12 +639,12 @@ html, body {
   transform: scale(1.1) !important;
 }
 
-/* Ensure floating button doesn't interfere with page content */
+
 .main-content {
-  padding-bottom: 100px; /* Extra space at bottom for floating button */
+  padding-bottom: 100px; 
 }
 
-/* Mobile responsiveness for Ruby button */
+
 @media (max-width: 768px) {
   .ruby-fab {
     bottom: 16px !important;
@@ -657,7 +657,7 @@ html, body {
   }
 }
 
-/* Dark mode enhancements for Ruby AI */
+
 @media (prefers-color-scheme: dark) {
   .MuiDialog-paper {
     background-color: #1a1a1a !important;
@@ -673,7 +673,7 @@ html, body {
     background-color: #0d1117 !important;
   }
   
-  /* Scrollbar styling for dark mode */
+  
   .MuiDialogContent-root::-webkit-scrollbar {
     width: 8px;
   }
