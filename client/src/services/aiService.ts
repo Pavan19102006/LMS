@@ -32,7 +32,7 @@ class AIService {
     }
 
     try {
-      const response = await fetch('https:
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ class AIService {
     }
 
     try {
-      const response = await fetch('https:
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ class AIService {
 
       console.log('🔷 Ruby AI: Sending request to Gemini 1.5 Flash...');
 
-      const response = await fetch(`https:
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${this.config.apiKey}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

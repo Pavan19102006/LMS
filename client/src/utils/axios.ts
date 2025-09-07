@@ -4,21 +4,15 @@ import axios from 'axios';
 const getApiBaseUrl = () => {
   
   if (process.env.REACT_APP_API_URL) {
-    console.log('🌐 Using configured API URL:', process.env.REACT_APP_API_URL);
     return process.env.REACT_APP_API_URL + '/api';
   }
 
   
-  const currentUrl = window.location.href;
   const hostname = window.location.hostname;
-
-  console.log('🔍 Auto-detecting API URL:');
-  console.log('- Current URL:', currentUrl);
-  console.log('- Hostname:', hostname);
 
   
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return 'http:
+    return 'http://localhost:5001/api';
   }
 
   
@@ -31,12 +25,9 @@ const getApiBaseUrl = () => {
 };
 
 const baseURL = getApiBaseUrl();
-console.log('✅ Final API Base URL:', baseURL);
 
 
 axios.defaults.baseURL = baseURL;
-
-console.log('🚀 Axios configured with baseURL:', axios.defaults.baseURL);
 
 
 axios.interceptors.request.use(

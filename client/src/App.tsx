@@ -1,25 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { 
   useMediaQuery, 
-  Fab
+  Fab,
+  CircularProgress,
+  Box
 } from '@mui/material';
 import { SmartToy as RubyIcon } from '@mui/icons-material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Login from './components/Auth/Login';
-import Dashboard from './components/Dashboard/Dashboard';
-import CourseList from './components/Courses/CourseList';
-import CourseDetail from './components/Courses/CourseDetail';
-import Assignments from './components/Assignments/Assignments';
-import UserManagement from './components/Admin/UserManagement';
-import UserProfile from './components/Profile/UserProfile';
-import RubyAIChat from './components/AI/RubyAIChat';
-import StarryBackground from './components/Common/StarryBackground';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './components/Common/ProtectedRoute';
 import Navbar from './components/Layout/Navbar';
 import './App.css';
+
+const Dashboard = React.lazy(() => import('./components/Dashboard/Dashboard'));
+const CourseList = React.lazy(() => import('./components/Courses/CourseList'));
+const CourseDetail = React.lazy(() => import('./components/Courses/CourseDetail'));
+const Assignments = React.lazy(() => import('./components/Assignments/Assignments'));
+const UserManagement = React.lazy(() => import('./components/Admin/UserManagement'));
+const UserProfile = React.lazy(() => import('./components/Profile/UserProfile'));
+const RubyAIChat = React.lazy(() => import('./components/AI/RubyAIChat'));
+const StarryBackground = React.lazy(() => import('./components/Common/StarryBackground'));
+
+const LoadingSpinner = () => (
+  <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+    <CircularProgress />
+  </Box>
+);
 
 
 const useSystemTheme = () => {
@@ -80,15 +89,20 @@ const AppLayout = () => {
 
   return (
     <div className="App">
-      {}
-      {!isLoginPage && isAuthenticated && <StarryBackground />}
+      
+      {!isLoginPage && isAuthenticated && (
+        <Suspense fallback={null}>
+          <StarryBackground />
+        </Suspense>
+      )}
       
       {!isLoginPage && <Navbar />}
       <main className={isLoginPage ? '' : 'main-content'}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
@@ -137,6 +151,7 @@ const AppLayout = () => {
             }
           />
         </Routes>
+        </Suspense>
       </main>
 
       {}
