@@ -512,45 +512,20 @@ const Dashboard: React.FC = () => {
         }}
       />
       
-      {}
+      {/* Enhanced static background overlay */}
       <Box
-        component="video"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
         sx={{
           position: 'fixed',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
-          objectFit: 'cover',
-          zIndex: -1,
-          opacity: 0.4,
-          '@media (max-width: 768px)': {
-            opacity: 0.3
-          }
+          background: 'linear-gradient(45deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+          zIndex: -1
         }}
-        onError={(e) => {
-          console.error('Video failed to load:', e);
-          
-          (e.target as HTMLVideoElement).style.display = 'none';
-        }}
-        onLoadStart={() => {
-          console.log('Video loading started');
-        }}
-        onCanPlay={() => {
-          console.log('Video can play');
-        }}
-      >
-        <source src={`${process.env.PUBLIC_URL}/83274-581386222.mp4`} type="video/mp4" />
-        <source src="/83274-581386222.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </Box>
+      />
       
-      {}
+      {/* Optional: Add a subtle pattern overlay */}
       <Box
         sx={{
           position: 'fixed',

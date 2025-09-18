@@ -20,10 +20,6 @@
       "dest": "/client/build/static/$1"
     },
     {
-      "src": "/83274-581386222.mp4",
-      "dest": "/client/build/83274-581386222.mp4"
-    },
-    {
       "src": "/favicon.ico",
       "dest": "/client/build/favicon.ico"
     },

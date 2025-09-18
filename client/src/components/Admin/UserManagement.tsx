@@ -23,8 +23,12 @@ import {
   FormControl,
   InputLabel,
   Fab,
+  Alert,
+  CircularProgress,
+  TablePagination,
 } from '@mui/material';
-import { Edit, Delete, Add } from '@mui/icons-material';
+import { Edit, Delete, Add, Search } from '@mui/icons-material';
+import axios from '../../utils/axios';
 
 interface User {
   id: string;
@@ -41,13 +45,107 @@ const UserManagement: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState('');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
     lastName: '',
+    password: '',
     role: 'student' as User['role'],
     status: 'active' as User['status'],
   });
+
+  
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      const response = await axios.get('/users', {
+        params: {
+          page: page + 1,
+          limit: rowsPerPage,
+          search: searchTerm,
+          role: roleFilter
+        }
+      });
+      setUsers(response.data.users);
+      setTotalUsers(response.data.total);
+    } catch (err: any) {
+      console.error('Error fetching users:', err);
+      setError('Failed to fetch users. Please try again.');
+      
+      const mockUsers: User[] = [
+        {
+          id: '1',
+          email: 'admin@lms.com',
+          firstName: 'Admin',
+          lastName: 'User',
+          role: 'admin',
+          status: 'active',
+          joinDate: '2025-01-15',
+        },
+        {
+          id: '2',
+          email: 'john.smith@lms.com',
+          firstName: 'John',
+          lastName: 'Smith',
+          role: 'instructor',
+          status: 'active',
+          joinDate: '2025-02-10',
+        },
+        {
+          id: '3',
+          email: 'sarah.johnson@lms.com',
+          firstName: 'Sarah',
+          lastName: 'Johnson',
+          role: 'instructor',
+          status: 'active',
+          joinDate: '2025-02-15',
+        },
+        {
+          id: '4',
+          email: 'student1@lms.com',
+          firstName: 'Alice',
+          lastName: 'Cooper',
+          role: 'student',
+          status: 'active',
+          joinDate: '2025-03-01',
+        },
+        {
+          id: '5',
+          email: 'student2@lms.com',
+          firstName: 'Bob',
+          lastName: 'Wilson',
+          role: 'student',
+          status: 'inactive',
+          joinDate: '2025-03-05',
+        },
+        {
+          id: '6',
+          email: 'creator@lms.com',
+          firstName: 'Content',
+          lastName: 'Creator',
+          role: 'content_creator',
+          status: 'active',
+          joinDate: '2025-03-10',
+        },
+      ];
+      setUsers(mockUsers);
+      setTotalUsers(mockUsers.length);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [page, rowsPerPage, searchTerm, roleFilter]);
 
   
   useEffect(() => {
@@ -126,6 +224,7 @@ const UserManagement: React.FC = () => {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        password: '',
         role: user.role,
         status: user.status,
       });
@@ -135,6 +234,7 @@ const UserManagement: React.FC = () => {
         email: '',
         firstName: '',
         lastName: '',
+        password: '',
         role: 'student',
         status: 'active',
       });
@@ -147,7 +247,77 @@ const UserManagement: React.FC = () => {
     setEditingUser(null);
   };
 
-  const handleSaveUser = () => {
+  const handleSaveUser = async () => {
+    try {
+      setError('');
+      setSuccess('');
+      
+      if (editingUser) {
+        
+        const updateData: any = {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          role: formData.role,
+          status: formData.status,
+        };
+        
+        if (formData.password) {
+          updateData.password = formData.password;
+        }
+        
+        await axios.put(`/users/${editingUser.id}`, updateData);
+        setSuccess('User updated successfully!');
+      } else {
+        
+        if (!formData.password) {
+          setError('Password is required for new users');
+          return;
+        }
+        
+        await axios.post('/users', formData);
+        setSuccess('User created successfully!');
+      }
+      
+      handleCloseDialog();
+      fetchUsers();
+    } catch (err: any) {
+      console.error('Error saving user:', err);
+      setError(err.response?.data?.message || 'Failed to save user');
+    }
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      try {
+        setError('');
+        await axios.delete(`/users/${userId}`);
+        setSuccess('User deleted successfully!');
+        fetchUsers();
+      } catch (err: any) {
+        console.error('Error deleting user:', err);
+        setError(err.response?.data?.message || 'Failed to delete user');
+      }
+    }
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+    setPage(0);
+  };
+
+  const handleRoleFilterChange = (event: any) => {
+    setRoleFilter(event.target.value);
+    setPage(0);
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
     if (editingUser) {
       
       setUsers(users.map(user => 
