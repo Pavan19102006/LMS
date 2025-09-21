@@ -4,11 +4,17 @@ import axios from 'axios';
 const getApiBaseUrl = () => {
   
   if (process.env.REACT_APP_API_URL) {
+    console.log('🌐 Using configured API URL:', process.env.REACT_APP_API_URL);
     return process.env.REACT_APP_API_URL + '/api';
   }
 
   
+  const currentUrl = window.location.href;
   const hostname = window.location.hostname;
+
+  console.log('🔍 Auto-detecting API URL:');
+  console.log('- Current URL:', currentUrl);
+  console.log('- Hostname:', hostname);
 
   
   if (hostname === 'localhost' || hostname === '127.0.0.1') {

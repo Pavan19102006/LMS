@@ -16,16 +16,16 @@ let isMongoConnected = false;
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [
-        'https:
-        'https:
+        'https://lms-frontend-swqi2du1c-boppanapavanprasads-projects.vercel.app',
+        'https://lms-frontend.vercel.app',
         /\.vercel\.app$/,
         /\.netlify\.app$/,
         /\.replit\.dev$/,
         /\.replit\.co$/
       ]
     : [
-        'http:
-        'http:
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
         /localhost:\d+/,
         /\.replit\.dev$/,
         /\.replit\.co$/,
@@ -44,7 +44,7 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-mongoose.connect(process.env.MONGODB_URI || 'mongodb:
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lms', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

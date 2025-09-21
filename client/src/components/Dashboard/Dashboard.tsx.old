@@ -1,0 +1,296 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Box,
+  Chip,
+  Button
+} from '@mui/material';
+import {
+  School,
+  People,
+  Assignment,
+  Analytics
+} from '@mui/icons-material';
+import { useAuth } from '../../contexts/AuthContext';
+
+const Dashboard: React.FC = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  };
+
+  const getRoleBasedContent = () => {
+    switch (user?.role) {
+      case 'admin':
+        return (
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <People color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>Total Users</Typography>
+                      <Typography variant="h4">1,234</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <School color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>Total Courses</Typography>
+                      <Typography variant="h4">87</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <Assignment color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>Active Assignments</Typography>
+                      <Typography variant="h4">156</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <Analytics color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>Platform Usage</Typography>
+                      <Typography variant="h4">94%</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        );
+        
+      case 'instructor':
+        return (
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <School color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>My Courses</Typography>
+                      <Typography variant="h4">12</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <People color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>Total Students</Typography>
+                      <Typography variant="h4">342</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <Assignment color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>Pending Grades</Typography>
+                      <Typography variant="h4">28</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        );
+        
+      case 'student':
+      default:
+        return (
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <School color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>Enrolled Courses</Typography>
+                      <Typography variant="h4">8</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <Assignment color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>Assignments Due</Typography>
+                      <Typography variant="h4">5</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(10px)' }}>
+                <CardContent>
+                  <Box display="flex" alignItems="center">
+                    <Analytics color="primary" sx={{ mr: 2 }} />
+                    <Box>
+                      <Typography color="textSecondary" gutterBottom>Overall Progress</Typography>
+                      <Typography variant="h4">78%</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        );
+    }
+  };
+
+  return (
+    <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+      {/* Background */}
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          zIndex: -1
+        }}
+      />
+      
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
+        {/* Header */}
+        <Box sx={{ mb: 4 }}>
+          <Typography 
+            variant="h4" 
+            component="h1" 
+            gutterBottom
+            sx={{ 
+              color: 'white',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+              fontWeight: 'bold'
+            }}
+          >
+            {getGreeting()}, {user?.firstName || 'User'}!
+          </Typography>
+          <Box display="flex" alignItems="center" gap={1} mb={3}>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                color: 'white',
+                textShadow: '1px 1px 2px rgba(0,0,0,0.7)'
+              }}
+            >
+              Role:
+            </Typography>
+            <Chip 
+              label={user?.role?.replace('_', ' ').toUpperCase() || 'STUDENT'} 
+              color="primary" 
+              variant="filled"
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'white',
+                fontWeight: 'bold',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
+              }}
+            />
+          </Box>
+        </Box>
+
+        {/* Role-based content */}
+        {getRoleBasedContent()}
+
+        {/* Quick Actions */}
+        <Box sx={{ mt: 4 }}>
+          <Typography 
+            variant="h5" 
+            component="h2" 
+            gutterBottom
+            sx={{ 
+              color: 'white',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+              fontWeight: 'bold'
+            }}
+          >
+            Quick Actions
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item>
+              <Button 
+                variant="contained" 
+                color="primary"
+                onClick={() => navigate('/courses')}
+                sx={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3)' }}
+              >
+                Browse Courses
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button 
+                variant="contained" 
+                color="secondary"
+                onClick={() => navigate('/assignments')}
+                sx={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3)' }}
+              >
+                View Assignments
+              </Button>
+            </Grid>
+            {user?.role === 'admin' && (
+              <Grid item>
+                <Button 
+                  variant="contained" 
+                  color="info"
+                  onClick={() => navigate('/user-management')}
+                  sx={{ boxShadow: '0 4px 8px rgba(0,0,0,0.3)' }}
+                >
+                  Manage Users
+                </Button>
+              </Grid>
+            )}
+          </Grid>
+        </Box>
+      </Container>
+    </Box>
+  );
+};
+
+export default Dashboard;

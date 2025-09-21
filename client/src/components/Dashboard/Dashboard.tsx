@@ -28,12 +28,18 @@ import {
   MenuBook as BookIcon
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
+import UserManagement from '../Admin/UserManagement';
+// REMOVED: Unused imports
+// import CourseManagement from '../Instructor/CourseManagement';
+// import StudentManagement from '../Instructor/StudentManagement';
+// import InstructorAnalytics from '../Instructor/InstructorAnalytics';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [coursesDialogOpen, setCoursesDialogOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
 
   
   const enrolledCourses = [
@@ -181,68 +187,88 @@ const Dashboard: React.FC = () => {
   const getRoleBasedContent = () => {
     switch (user?.role) {
       case 'admin':
+        if (activeTab === 'users') {
+          return <UserManagement />;
+        }
         return (
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card 
-                className="dashboard-card"
-                sx={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)'
-                }}
+          <Box>
+            <Box sx={{ mb: 3 }}>
+              <Button
+                variant={activeTab === 'overview' ? 'contained' : 'outlined'}
+                onClick={() => setActiveTab('overview')}
+                sx={{ mr: 2, color: activeTab === 'overview' ? 'white' : 'white', borderColor: 'white' }}
               >
-                <CardContent>
-                  <Box display="flex" alignItems="center">
-                    <People color="primary" sx={{ mr: 2 }} />
-                    <Box>
-                      <Typography color="textSecondary" gutterBottom>
-                        Total Users
-                      </Typography>
-                      <Typography variant="h4">1,234</Typography>
+                Overview
+              </Button>
+              <Button
+                variant={activeTab === 'users' ? 'contained' : 'outlined'}
+                onClick={() => setActiveTab('users')}
+                sx={{ color: activeTab === 'users' ? 'white' : 'white', borderColor: 'white' }}
+              >
+                User Management
+              </Button>
+            </Box>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card 
+                  className="dashboard-card"
+                  sx={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
+                >
+                  <CardContent>
+                    <Box display="flex" alignItems="center">
+                      <People color="primary" sx={{ mr: 2 }} />
+                      <Box>
+                        <Typography color="textSecondary" gutterBottom>
+                          Total Users
+                        </Typography>
+                        <Typography variant="h4">1,234</Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card 
-                className="dashboard-card"
-                sx={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)'
-                }}
-              >
-                <CardContent>
-                  <Box display="flex" alignItems="center">
-                    <School color="primary" sx={{ mr: 2 }} />
-                    <Box>
-                      <Typography color="textSecondary" gutterBottom>
-                        Total Courses
-                      </Typography>
-                      <Typography variant="h4">87</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card 
+                  className="dashboard-card"
+                  sx={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
+                >
+                  <CardContent>
+                    <Box display="flex" alignItems="center">
+                      <School color="primary" sx={{ mr: 2 }} />
+                      <Box>
+                        <Typography color="textSecondary" gutterBottom>
+                          Total Courses
+                        </Typography>
+                        <Typography variant="h4">87</Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card 
-                className="dashboard-card"
-                sx={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)'
-                }}
-              >
-                <CardContent>
-                  <Box display="flex" alignItems="center">
-                    <Assignment color="primary" sx={{ mr: 2 }} />
-                    <Box>
-                      <Typography color="textSecondary" gutterBottom>
-                        Active Assignments
-                      </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card 
+                  className="dashboard-card"
+                  sx={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
+                >
+                  <CardContent>
+                    <Box display="flex" alignItems="center">
+                      <Assignment color="primary" sx={{ mr: 2 }} />
+                      <Box>
+                        <Typography color="textSecondary" gutterBottom>
+                          Active Assignments
+                        </Typography>
                       <Typography variant="h4">156</Typography>
                     </Box>
                   </Box>
@@ -272,6 +298,7 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
           </Grid>
+        </Box>
         );
       case 'instructor':
         return (
@@ -382,6 +409,9 @@ const Dashboard: React.FC = () => {
                 className="dashboard-card"
                 sx={{ 
                   cursor: 'pointer',
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
                   transition: 'all 0.3s ease',
                   '&:hover': {
                     transform: 'translateY(-2px)',
@@ -405,7 +435,14 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <Card className="dashboard-card">
+              <Card 
+                className="dashboard-card"
+                sx={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+              >
                 <CardContent>
                   <Box display="flex" alignItems="center">
                     <Analytics color="primary" sx={{ mr: 2 }} />
@@ -512,20 +549,45 @@ const Dashboard: React.FC = () => {
         }}
       />
       
-      {/* Enhanced static background overlay */}
+      {}
       <Box
+        component="video"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
         sx={{
           position: 'fixed',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'linear-gradient(45deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
-          zIndex: -1
+          objectFit: 'cover',
+          zIndex: -1,
+          opacity: 0.4,
+          '@media (max-width: 768px)': {
+            opacity: 0.3
+          }
         }}
-      />
+        onError={(e) => {
+          console.error('Video failed to load:', e);
+          
+          (e.target as HTMLVideoElement).style.display = 'none';
+        }}
+        onLoadStart={() => {
+          console.log('Video loading started');
+        }}
+        onCanPlay={() => {
+          console.log('Video can play');
+        }}
+      >
+        <source src={`${process.env.PUBLIC_URL}/83274-581386222.mp4`} type="video/mp4" />
+        <source src="/83274-581386222.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </Box>
       
-      {/* Optional: Add a subtle pattern overlay */}
+      {}
       <Box
         sx={{
           position: 'fixed',
@@ -573,7 +635,8 @@ const Dashboard: React.FC = () => {
                 boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
               }}
             />
-          </Box>        {getRoleBasedContent()}
+          </Box>
+        {getRoleBasedContent()}
         
         <Box sx={{ mt: 4 }} id="quick-actions">
           <Typography 
@@ -601,6 +664,7 @@ const Dashboard: React.FC = () => {
                       backdropFilter: 'blur(10px)',
                       border: '1px solid rgba(255, 255, 255, 0.2)'
                     }}
+                    onClick={() => setActiveTab('users')}
                   >
                     <CardContent>
                       <Typography variant="h6">Manage Users</Typography>

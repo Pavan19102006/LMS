@@ -19,17 +19,16 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
-    "recharts": "^2.8.0",
+    "recharts": "^2.15.4",
     "socket.io-client": "^4.7.2",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "analyze": "npm run build && npx webpack-bundle-analyzer build/static/js/*.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
