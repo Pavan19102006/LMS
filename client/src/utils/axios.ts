@@ -2,38 +2,35 @@ import axios from 'axios';
 
 
 const getApiBaseUrl = () => {
-  
   if (process.env.REACT_APP_API_URL) {
-    console.log('🌐 Using configured API URL:', process.env.REACT_APP_API_URL);
     return process.env.REACT_APP_API_URL + '/api';
   }
 
-  
-  const currentUrl = window.location.href;
   const hostname = window.location.hostname;
 
-  console.log('🔍 Auto-detecting API URL:');
-  console.log('- Current URL:', currentUrl);
-  console.log('- Hostname:', hostname);
-
-  
+  // Fast path for localhost
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
     return 'http://localhost:5001/api';
   }
 
-  
-  if (hostname.includes('replit.dev') || hostname.includes('replit.co')) {
-    return '/api';  
-  }
-
-  
+  // Default to relative URL for production
   return '/api';
 };
 
 const baseURL = getApiBaseUrl();
 
+// Optimized axios instance with faster defaults
+const axiosInstance = axios.create({
+  baseURL,
+  timeout: 10000, // 10 second timeout
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
+// Set as default
 axios.defaults.baseURL = baseURL;
+axios.defaults.timeout = 10000;
 
 
 axios.interceptors.request.use(

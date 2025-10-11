@@ -277,19 +277,15 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Skip validation for demo accounts
+    // Skip validation for demo accounts for faster login
     if (!isDemoAccount) {
-      // Validate form before submission for non-demo accounts
-      const emailValidation = validateEmail(email);
-      const passwordValidation = validatePassword(password);
-      
-      if (!emailValidation.isValid || !passwordValidation.isValid) {
-        setFieldErrors({
-          ...fieldErrors,
-          email: emailValidation.errors,
-          password: passwordValidation.errors
-        });
-        setError('Please fix the validation errors before submitting');
+      // Quick validation check - only basic validation for login speed
+      if (!email || email.length < 3) {
+        setError('Please enter a valid email');
+        return;
+      }
+      if (!password || password.length < 1) {
+        setError('Please enter your password');
         return;
       }
     }
@@ -298,16 +294,14 @@ const Login: React.FC = () => {
     setError('');
 
     try {
+      // Login without waiting for success message
       await login(email, password);
-      setSuccess('Login successful! Redirecting to dashboard...');
-      setTimeout(() => {
-        navigate('/dashboard', { replace: true });
-      }, 500);
+      // Immediate navigation without delay for faster UX
+      navigate('/dashboard', { replace: true });
     } catch (err: any) {
       console.error('Login Error:', err);
       const errorMessage = err.response?.data?.message || err.message || 'Login failed';
       setError(`Login failed: ${errorMessage}`);
-    } finally {
       setLoading(false);
     }
   };

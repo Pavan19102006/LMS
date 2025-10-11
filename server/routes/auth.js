@@ -254,13 +254,11 @@ router.post('/login', [
 
     const { email, password } = req.body;
     
-    // Additional email validation
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({ message: 'Invalid email format' });
-    }
-
-    const user = await User.findOne({ email: email.toLowerCase().trim() });
+    // Optimized: Find user with only necessary fields for faster query
+    const user = await User.findOne({ email: email.toLowerCase().trim() })
+      .select('+password firstName lastName email role avatar status lastLoginDate')
+      .lean(false); // Keep as Mongoose document for methods
+    
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -274,12 +272,16 @@ router.post('/login', [
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Update last login date
-    user.lastLoginDate = new Date();
-    await user.save();
-
+    // Optimized: Generate token immediately and update login date in background
     const token = generateToken(user._id);
+    
+    // Non-blocking update (fire and forget)
+    User.updateOne(
+      { _id: user._id },
+      { $set: { lastLoginDate: new Date() } }
+    ).exec().catch(err => console.error('Failed to update lastLoginDate:', err));
 
+    // Send response immediately
     res.json({
       message: 'Login successful',
       token,
