@@ -3,6 +3,12 @@ const { body, validationResult } = require('express-validator');
 const Course = require('../models/Course');
 const User = require('../models/User');
 const { auth, authorize } = require('../middleware/auth');
+const { 
+  notifyInstructorsAboutNewCourse,
+  notifyStudentsAboutPublishedCourse,
+  notifyInstructorAboutEnrollment,
+  notifyUserAboutCourseAssignment
+} = require('../utils/notificationHelper');
 const router = express.Router();
 router.get('/', async (req, res) => {
   try {
@@ -88,6 +94,12 @@ router.post('/', auth, authorize('instructor', 'admin'), [
     await course.save();
     const populatedCourse = await Course.findById(course._id)
       .populate('instructor', 'firstName lastName email');
+    
+    // Notify instructors if admin creates the course
+    if (req.user.role === 'admin') {
+      await notifyInstructorsAboutNewCourse(populatedCourse, req.user);
+    }
+    
     res.status(201).json({
       message: 'Course created successfully',
       course: populatedCourse
@@ -195,6 +207,13 @@ router.post('/:id/enroll', auth, async (req, res) => {
       progress: 0
     });
     await user.save();
+    
+    // Notify instructor about new enrollment
+    const instructor = await User.findById(course.instructor);
+    if (instructor) {
+      await notifyInstructorAboutEnrollment(course, req.user, instructor);
+    }
+    
     res.json({ message: 'Successfully enrolled in course' });
   } catch (error) {
     console.error('Enroll course error:', error);
@@ -238,6 +257,15 @@ router.post('/:id/publish', auth, async (req, res) => {
       course.publishedDate = new Date();
     }
     await course.save();
+    
+    // Notify students when course is published
+    if (course.isPublished) {
+      const instructor = await User.findById(course.instructor);
+      if (instructor) {
+        await notifyStudentsAboutPublishedCourse(course, instructor);
+      }
+    }
+    
     res.json({ 
       message: `Course ${course.isPublished ? 'published' : 'unpublished'} successfully`,
       isPublished: course.isPublished
@@ -249,13 +277,14 @@ router.post('/:id/publish', auth, async (req, res) => {
 });
 router.get('/instructor/:instructorId', async (req, res) => {
   try {
+    console.log('🔍 Fetching courses for instructor ID:', req.params.instructorId);
     const courses = await Course.find({ 
-      instructor: req.params.instructorId,
-      isPublished: true 
+      instructor: req.params.instructorId
     })
     .populate('instructor', 'firstName lastName email')
     .sort({ createdAt: -1 });
-    res.json(courses);
+    console.log('✅ Found courses:', courses.length);
+    res.json({ courses });
   } catch (error) {
     console.error('Get instructor courses error:', error);
     res.status(500).json({ message: 'Server error fetching instructor courses' });

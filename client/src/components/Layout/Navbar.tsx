@@ -18,6 +18,7 @@ import {
   Person as PersonIcon 
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
+import NotificationBell from '../Common/NotificationBell';
 
 const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -86,6 +87,8 @@ const Navbar: React.FC = () => {
               User Management
             </Button>
           )}
+          
+          <NotificationBell />
           
           <IconButton
             size="large"

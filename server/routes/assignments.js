@@ -3,6 +3,11 @@ const { body, validationResult } = require('express-validator');
 const Assignment = require('../models/Assignment');
 const Course = require('../models/Course');
 const { auth, authorize } = require('../middleware/auth');
+const { 
+  notifyStudentsAboutNewAssignment,
+  notifyInstructorAboutSubmission,
+  notifyStudentAboutGrade
+} = require('../utils/notificationHelper');
 const router = express.Router();
 router.get('/', auth, async (req, res) => {
   try {
@@ -115,6 +120,19 @@ router.post('/', auth, authorize('instructor', 'admin'), [
     const populatedAssignment = await Assignment.findById(assignment._id)
       .populate('course', 'title')
       .populate('instructor', 'firstName lastName email');
+    
+    // Get the course with enrolled students to notify them
+    const courseWithStudents = await Course.findById(req.body.course);
+    
+    // Notify all enrolled students about the new assignment
+    if (courseWithStudents && assignment.isPublished) {
+      await notifyStudentsAboutNewAssignment(
+        populatedAssignment,
+        courseWithStudents,
+        req.user
+      );
+    }
+    
     res.status(201).json({
       message: 'Assignment created successfully',
       assignment: populatedAssignment

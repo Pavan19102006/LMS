@@ -30,20 +30,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    console.log('AuthContext useEffect: token from localStorage:', token);
     if (token) {
+      
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      console.log('AuthContext useEffect: Set auth header, calling fetchUserProfile');
       fetchUserProfile();
     } else {
+      console.log('AuthContext useEffect: No token found, setting loading to false');
       setLoading(false);
     }
   }, []);
 
   const fetchUserProfile = async () => {
+    console.log('Fetching user profile...');
     try {
       const response = await axios.get('/api/auth/profile');
+      console.log('Fetch user profile response:', response.data);
       setUser(response.data);
     } catch (error: any) {
-      // Silent fail - clear invalid token
+      console.error('Failed to fetch user profile:', error);
+      
       localStorage.removeItem('token');
       delete axios.defaults.headers.common['Authorization'];
     } finally {
@@ -53,17 +60,31 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      // Optimized: Single API call with minimal logging for faster login
+      console.log('🔥 AuthContext Login Debug:');
+      console.log('- Email:', email);
+      console.log('- API Base URL:', axios.defaults.baseURL);
+      console.log('- Current URL:', window.location.href);
+      console.log('- Making request to:', axios.defaults.baseURL + '/api/auth/login');
+      
       const response = await axios.post('/api/auth/login', { email, password });
+      console.log('✅ Login response:', response.data);
       
       const { token, user } = response.data;
       
-      // Optimized: Set token and user simultaneously
       localStorage.setItem('token', token);
+      console.log('Token stored in localStorage:', localStorage.getItem('token'));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(user);
+      console.log('✅ Login successful, user set:', user);
     } catch (error: any) {
-      console.error('Login error:', error.response?.data?.message || error.message);
+      console.error('🚨 AuthContext Login Error:', {
+        message: error.message,
+        response: error.response,
+        responseData: error.response?.data,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        config: error.config
+      });
       throw error;
     }
   };

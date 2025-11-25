@@ -5,7 +5,7 @@ const User = require('./models/User');
 const Course = require('./models/Course');
 const seedDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb:
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lms', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

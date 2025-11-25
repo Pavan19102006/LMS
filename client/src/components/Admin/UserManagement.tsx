@@ -23,11 +23,8 @@ import {
   FormControl,
   InputLabel,
   Fab,
-  Alert,
-  CircularProgress,
 } from '@mui/material';
-import { Edit, Delete, Add, Refresh } from '@mui/icons-material';
-import axios from '../../utils/axios';
+import { Edit, Delete, Add } from '@mui/icons-material';
 
 interface User {
   id: string;
@@ -42,10 +39,8 @@ interface User {
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
-  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
@@ -54,53 +49,61 @@ const UserManagement: React.FC = () => {
     status: 'active' as User['status'],
   });
 
+  
   useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
-    try {
-      setLoading(true);
-      setError('');
-      const response = await axios.get('/api/users');
-      setUsers(response.data.users || response.data || []);
-    } catch (err: any) {
-      console.error('Error fetching users:', err);
-      setError('Failed to load users. Please try again.');
-      // Fallback to demo data if API fails
-      setUsers([
-        {
-          id: '1',
-          email: 'admin@lms.com',
-          firstName: 'Admin',
-          lastName: 'User',
-          role: 'admin',
-          status: 'active',
-          joinDate: '2025-01-15',
-        },
-        {
-          id: '2',
-          email: 'instructor@lms.com',
-          firstName: 'John',
-          lastName: 'Smith',
-          role: 'instructor',
-          status: 'active',
-          joinDate: '2025-02-10',
-        },
-        {
-          id: '3',
-          email: 'student@lms.com',
-          firstName: 'Alice',
-          lastName: 'Cooper',
-          role: 'student',
-          status: 'active',
-          joinDate: '2025-03-01',
-        },
-      ]);
-    } finally {
+    const mockUsers: User[] = [
+      {
+        id: '1',
+        email: 'admin@lms.com',
+        firstName: 'Admin',
+        lastName: 'User',
+        role: 'admin',
+        status: 'active',
+        joinDate: '2025-01-15',
+      },
+      {
+        id: '2',
+        email: 'john.smith@lms.com',
+        firstName: 'John',
+        lastName: 'Smith',
+        role: 'instructor',
+        status: 'active',
+        joinDate: '2025-02-10',
+      },
+      {
+        id: '3',
+        email: 'sarah.johnson@lms.com',
+        firstName: 'Sarah',
+        lastName: 'Johnson',
+        role: 'instructor',
+        status: 'active',
+        joinDate: '2025-02-15',
+      },
+      {
+        id: '4',
+        email: 'student1@lms.com',
+        firstName: 'Alice',
+        lastName: 'Cooper',
+        role: 'student',
+        status: 'active',
+        joinDate: '2025-03-01',
+      },
+      {
+        id: '5',
+        email: 'student2@lms.com',
+        firstName: 'Bob',
+        lastName: 'Wilson',
+        role: 'student',
+        status: 'inactive',
+        joinDate: '2025-03-05',
+      },
+    ];
+    
+    setTimeout(() => {
+      setUsers(mockUsers);
       setLoading(false);
-    }
-  };
+    }, 1000);
+  }, []);
 
   const getRoleColor = (role: string) => {
     switch (role) {
@@ -144,48 +147,29 @@ const UserManagement: React.FC = () => {
     setEditingUser(null);
   };
 
-  const handleSaveUser = async () => {
-    try {
-      setSaving(true);
-      setError('');
+  const handleSaveUser = () => {
+    if (editingUser) {
       
-      if (editingUser) {
-        // Update existing user
-        const response = await axios.put(`/api/users/${editingUser.id}`, formData);
-        setUsers(users.map(user => 
-          user.id === editingUser.id 
-            ? { ...user, ...formData }
-            : user
-        ));
-      } else {
-        // Create new user
-        const response = await axios.post('/api/users', formData);
-        const newUser: User = {
-          id: response.data.user?.id || Date.now().toString(),
-          ...formData,
-          joinDate: new Date().toISOString().split('T')[0],
-        };
-        setUsers([...users, newUser]);
-      }
+      setUsers(users.map(user => 
+        user.id === editingUser.id 
+          ? { ...user, ...formData }
+          : user
+      ));
+    } else {
       
-      handleCloseDialog();
-    } catch (err: any) {
-      console.error('Error saving user:', err);
-      setError(err.response?.data?.message || 'Failed to save user');
-    } finally {
-      setSaving(false);
+      const newUser: User = {
+        id: Date.now().toString(),
+        ...formData,
+        joinDate: new Date().toISOString().split('T')[0],
+      };
+      setUsers([...users, newUser]);
     }
+    handleCloseDialog();
   };
 
-  const handleDeleteUser = async (userId: string) => {
+  const handleDeleteUser = (userId: string) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
-      try {
-        await axios.delete(`/api/users/${userId}`);
-        setUsers(users.filter(user => user.id !== userId));
-      } catch (err: any) {
-        console.error('Error deleting user:', err);
-        setError(err.response?.data?.message || 'Failed to delete user');
-      }
+      setUsers(users.filter(user => user.id !== userId));
     }
   };
 
@@ -197,7 +181,7 @@ const UserManagement: React.FC = () => {
     return (
       <Container maxWidth="lg">
         <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-          <CircularProgress />
+          <Typography>Loading users...</Typography>
         </Box>
       </Container>
     );
@@ -206,25 +190,9 @@ const UserManagement: React.FC = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ mt: 4, mb: 4 }}>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            User Management
-          </Typography>
-          <Button
-            variant="outlined"
-            startIcon={<Refresh />}
-            onClick={fetchUsers}
-            disabled={loading}
-          >
-            Refresh
-          </Button>
-        </Box>
-        
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
+        <Typography variant="h4" component="h1" gutterBottom>
+          User Management
+        </Typography>
         
         <TableContainer component={Paper}>
           <Table>
@@ -348,12 +316,8 @@ const UserManagement: React.FC = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cancel</Button>
-            <Button 
-              onClick={handleSaveUser} 
-              variant="contained"
-              disabled={saving}
-            >
-              {saving ? <CircularProgress size={20} /> : (editingUser ? 'Update' : 'Create')}
+            <Button onClick={handleSaveUser} variant="contained">
+              {editingUser ? 'Update' : 'Create'}
             </Button>
           </DialogActions>
         </Dialog>

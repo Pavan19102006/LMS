@@ -42,6 +42,20 @@ const assignmentSchema = new mongoose.Schema({
     url: String,
     fileType: String
   }],
+  quizQuestions: [{
+    question: {
+      type: String,
+      required: function() { return this.parent().type === 'quiz'; }
+    },
+    options: [{
+      type: String
+    }],
+    correctAnswer: {
+      type: Number,
+      min: 0,
+      max: 3
+    }
+  }],
   submissions: [{
     student: {
       type: mongoose.Schema.Types.ObjectId,
@@ -58,6 +72,10 @@ const assignmentSchema = new mongoose.Schema({
         filename: String,
         url: String,
         fileType: String
+      }],
+      quizAnswers: [{
+        questionId: Number,
+        selectedAnswer: Number
       }]
     },
     grade: {

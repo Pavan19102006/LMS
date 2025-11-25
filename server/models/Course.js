@@ -133,12 +133,15 @@ courseSchema.methods.updateAverageRating = function() {
   const sum = this.ratings.reduce((acc, rating) => acc + rating.rating, 0);
   this.averageRating = Math.round((sum / this.ratings.length) * 10) / 10;
 };
+
 courseSchema.virtual('enrollmentCount').get(function() {
-  return this.enrolledStudents.length;
+  return this.enrolledStudents?.length || 0;
 });
+
 courseSchema.virtual('isFull').get(function() {
-  return this.enrolledStudents.length >= this.maxStudents;
+  return (this.enrolledStudents?.length || 0) >= this.maxStudents;
 });
+
 courseSchema.set('toJSON', {
   virtuals: true,
   transform: function(doc, ret) {

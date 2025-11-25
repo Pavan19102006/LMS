@@ -29,16 +29,14 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import UserManagement from '../Admin/UserManagement';
-// REMOVED: Unused imports
-// import CourseManagement from '../Instructor/CourseManagement';
-// import StudentManagement from '../Instructor/StudentManagement';
-// import InstructorAnalytics from '../Instructor/InstructorAnalytics';
+import CreateAssignment from '../Instructor/CreateAssignment';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [coursesDialogOpen, setCoursesDialogOpen] = useState(false);
+  const [createAssignmentOpen, setCreateAssignmentOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
 
   
@@ -707,11 +705,12 @@ const Dashboard: React.FC = () => {
                       backdropFilter: 'blur(10px)',
                       border: '1px solid rgba(255, 255, 255, 0.2)'
                     }}
+                    onClick={() => setCreateAssignmentOpen(true)}
                   >
                     <CardContent>
-                      <Typography variant="h6">Create Course</Typography>
+                      <Typography variant="h6">Create Assignment</Typography>
                       <Typography variant="body2" color="textSecondary">
-                        Start a new course
+                        Add quiz or submission assignment
                       </Typography>
                     </CardContent>
                   </Card>
@@ -952,6 +951,16 @@ const Dashboard: React.FC = () => {
             </Button>
           </DialogActions>
         </Dialog>
+
+        {/* Create Assignment Dialog */}
+        <CreateAssignment
+          open={createAssignmentOpen}
+          onClose={() => setCreateAssignmentOpen(false)}
+          onSuccess={() => {
+            console.log('Assignment created successfully');
+            // Optionally refresh assignments list
+          }}
+        />
         </Box>
       </Container>
     </Box>

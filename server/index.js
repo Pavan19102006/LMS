@@ -10,14 +10,15 @@ const authDemoRoutes = require('./routes/auth-demo');
 const userRoutes = require('./routes/users');
 const courseRoutes = require('./routes/courses');
 const assignmentRoutes = require('./routes/assignments');
+const notificationRoutes = require('./routes/notifications');
 const app = express();
 app.set('trust proxy', 1);
 let isMongoConnected = false;
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
     ? [
-        'https://lms-frontend-swqi2du1c-boppanapavanprasads-projects.vercel.app',
-        'https://lms-frontend.vercel.app',
+        'https://your-production-frontend.com',
+        'https://your-production-domain.com',
         /\.vercel\.app$/,
         /\.netlify\.app$/,
         /\.replit\.dev$/,
@@ -74,6 +75,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/assignments', assignmentRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/notifications', notificationRoutes);
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'OK', 
