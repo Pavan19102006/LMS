@@ -338,7 +338,7 @@ const Assignments: React.FC = () => {
                         </Box>
 
                         <Box sx={{ ml: 2 }}>
-                          {status === 'pending' && (
+                          {user?.role === 'student' && status === 'pending' && (
                             <Button
                               variant="contained"
                               color="primary"
@@ -349,7 +349,7 @@ const Assignments: React.FC = () => {
                               Submit
                             </Button>
                           )}
-                          {status === 'submitted' && (
+                          {user?.role === 'student' && status === 'submitted' && (
                             <Button
                               variant="outlined"
                               color="info"
@@ -359,7 +359,7 @@ const Assignments: React.FC = () => {
                               Submitted
                             </Button>
                           )}
-                          {status === 'graded' && (
+                          {user?.role === 'student' && status === 'graded' && (
                             <Button
                               variant="outlined"
                               color="success"
@@ -370,6 +370,19 @@ const Assignments: React.FC = () => {
                               }}
                             >
                               View Grade
+                            </Button>
+                          )}
+                          {user?.role === 'instructor' && (
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              size="small"
+                              onClick={() => {
+                                console.log('View submissions for assignment:', assignment._id);
+                                // TODO: Navigate to submissions view
+                              }}
+                            >
+                              View Submissions ({assignment.submissions?.length || 0})
                             </Button>
                           )}
                         </Box>

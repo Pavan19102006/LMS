@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
@@ -30,6 +30,9 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import UserManagement from '../Admin/UserManagement';
 import CreateAssignment from '../Instructor/CreateAssignment';
+import SelectCourses from '../Instructor/SelectCourses';
+import GradeSubmissions from '../Instructor/GradeSubmissions';
+import axios from '../../utils/axios';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
@@ -37,7 +40,13 @@ const Dashboard: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [coursesDialogOpen, setCoursesDialogOpen] = useState(false);
   const [createAssignmentOpen, setCreateAssignmentOpen] = useState(false);
+  const [selectCoursesOpen, setSelectCoursesOpen] = useState(false);
+  const [gradeSubmissionsOpen, setGradeSubmissionsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [instructorCoursesCount, setInstructorCoursesCount] = useState(0);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [pendingGradingCount, setPendingGradingCount] = useState(0);
+  const [dashboardLoading, setDashboardLoading] = useState(false);
 
   
   const enrolledCourses = [
@@ -130,6 +139,88 @@ const Dashboard: React.FC = () => {
       color: "#5d4037"
     }
   ];
+
+  // Fetch all dashboard data for instructor
+  useEffect(() => {
+    if (user?.role === 'instructor' && user?.id) {
+      fetchDashboardData();
+      
+      // Set up auto-refresh every 30 seconds
+      const interval = setInterval(() => {
+        fetchDashboardData();
+      }, 30000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [user]);
+
+  const fetchDashboardData = async () => {
+    await Promise.all([
+      fetchInstructorCourses(),
+      fetchTotalStudents(),
+      fetchPendingGrading()
+    ]);
+  };
+
+  const fetchInstructorCourses = async () => {
+    try {
+      console.log('🔍 Fetching courses for instructor:', user?.id);
+      const response = await axios.get(`/api/courses/instructor/${user?.id}`);
+      const courses = response.data.courses || [];
+      console.log('✅ Fetched courses:', courses.length, courses);
+      setInstructorCoursesCount(courses.length);
+    } catch (error) {
+      console.error('❌ Error fetching instructor courses:', error);
+    }
+  };
+
+  const fetchTotalStudents = async () => {
+    try {
+      // Fetch all courses for this instructor
+      const coursesResponse = await axios.get(`/api/courses/instructor/${user?.id}`);
+      const courses = coursesResponse.data.courses || [];
+      
+      // Count unique students enrolled across all courses
+      const uniqueStudents = new Set();
+      courses.forEach((course: any) => {
+        if (course.enrolledStudents && Array.isArray(course.enrolledStudents)) {
+          course.enrolledStudents.forEach((studentId: string) => {
+            uniqueStudents.add(studentId);
+          });
+        }
+      });
+      
+      setTotalStudents(uniqueStudents.size);
+      console.log('✅ Total unique students:', uniqueStudents.size);
+    } catch (error) {
+      console.error('❌ Error fetching total students:', error);
+    }
+  };
+
+  const fetchPendingGrading = async () => {
+    try {
+      // Fetch all assignments
+      const response = await axios.get('/api/assignments');
+      const assignments = response.data.assignments || [];
+      
+      // Count submissions that need grading (no grade assigned)
+      let pendingCount = 0;
+      assignments.forEach((assignment: any) => {
+        if (assignment.submissions && Array.isArray(assignment.submissions)) {
+          assignment.submissions.forEach((submission: any) => {
+            if (submission.grade === undefined || submission.grade === null) {
+              pendingCount++;
+            }
+          });
+        }
+      });
+      
+      setPendingGradingCount(pendingCount);
+      console.log('✅ Pending grading count:', pendingCount);
+    } catch (error) {
+      console.error('❌ Error fetching pending grading:', error);
+    }
+  };
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -317,7 +408,7 @@ const Dashboard: React.FC = () => {
                       <Typography color="textSecondary" gutterBottom>
                         My Courses
                       </Typography>
-                      <Typography variant="h4">5</Typography>
+                      <Typography variant="h4">{instructorCoursesCount}</Typography>
                     </Box>
                   </Box>
                 </CardContent>
@@ -339,7 +430,7 @@ const Dashboard: React.FC = () => {
                       <Typography color="textSecondary" gutterBottom>
                         Total Students
                       </Typography>
-                      <Typography variant="h4">234</Typography>
+                      <Typography variant="h4">{totalStudents}</Typography>
                     </Box>
                   </Box>
                 </CardContent>
@@ -361,7 +452,7 @@ const Dashboard: React.FC = () => {
                       <Typography color="textSecondary" gutterBottom>
                         Pending Grading
                       </Typography>
-                      <Typography variant="h4">23</Typography>
+                      <Typography variant="h4">{pendingGradingCount}</Typography>
                     </Box>
                   </Box>
                 </CardContent>
@@ -534,69 +625,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-      {}
-      <Box
-        sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          zIndex: -2
-        }}
-      />
-      
-      {}
-      <Box
-        component="video"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: -1,
-          opacity: 0.4,
-          '@media (max-width: 768px)': {
-            opacity: 0.3
-          }
-        }}
-        onError={(e) => {
-          console.error('Video failed to load:', e);
-          
-          (e.target as HTMLVideoElement).style.display = 'none';
-        }}
-        onLoadStart={() => {
-          console.log('Video loading started');
-        }}
-        onCanPlay={() => {
-          console.log('Video can play');
-        }}
-      >
-        <source src={`${process.env.PUBLIC_URL}/83274-581386222.mp4`} type="video/mp4" />
-        <source src="/83274-581386222.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </Box>
-      
-      {}
-      <Box
-        sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          zIndex: -1
-        }}
-      />
       
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
         <Box sx={{ mt: 4, mb: 4 }}>
@@ -705,6 +733,26 @@ const Dashboard: React.FC = () => {
                       backdropFilter: 'blur(10px)',
                       border: '1px solid rgba(255, 255, 255, 0.2)'
                     }}
+                    onClick={() => setSelectCoursesOpen(true)}
+                  >
+                    <CardContent>
+                      <Typography variant="h6">Select Courses</Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Browse and assign courses to teach
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item>
+                  <Card 
+                    className="dashboard-card" 
+                    sx={{ 
+                      cursor: 'pointer', 
+                      '&:hover': { boxShadow: 6 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)'
+                    }}
                     onClick={() => setCreateAssignmentOpen(true)}
                   >
                     <CardContent>
@@ -725,6 +773,7 @@ const Dashboard: React.FC = () => {
                       backdropFilter: 'blur(10px)',
                       border: '1px solid rgba(255, 255, 255, 0.2)'
                     }}
+                    onClick={() => setGradeSubmissionsOpen(true)}
                   >
                     <CardContent>
                       <Typography variant="h6">Grade Assignments</Typography>
@@ -958,7 +1007,27 @@ const Dashboard: React.FC = () => {
           onClose={() => setCreateAssignmentOpen(false)}
           onSuccess={() => {
             console.log('Assignment created successfully');
-            // Optionally refresh assignments list
+            fetchDashboardData(); // Refresh all dashboard stats
+          }}
+        />
+
+        {/* Select Courses Dialog */}
+        <SelectCourses
+          open={selectCoursesOpen}
+          onClose={() => setSelectCoursesOpen(false)}
+          onSuccess={() => {
+            console.log('Courses assigned successfully');
+            fetchDashboardData(); // Refresh all dashboard stats
+          }}
+        />
+
+        {/* Grade Submissions Dialog */}
+        <GradeSubmissions
+          open={gradeSubmissionsOpen}
+          onClose={() => setGradeSubmissionsOpen(false)}
+          onSuccess={() => {
+            console.log('Grades submitted successfully');
+            fetchDashboardData(); // Refresh all dashboard stats
           }}
         />
         </Box>

@@ -79,7 +79,7 @@ const StarryBackground: React.FC = () => {
         }}
       />
 
-      {}
+      {/* Animated falling stars (snow effect) - 60 stars */}
       <Box
         className="falling-stars"
         sx={{
@@ -93,14 +93,29 @@ const StarryBackground: React.FC = () => {
           zIndex: 0,
         }}
       >
-        <Box className="falling-star" />
-        <Box className="falling-star" />
-        <Box className="falling-star" />
-        <Box className="falling-star" />
-        <Box className="falling-star" />
-        <Box className="falling-star" />
-        <Box className="falling-star" />
-        <Box className="falling-star" />
+        {Array.from({ length: 60 }).map((_, index) => (
+          <Box key={index} className="falling-star" />
+        ))}
+      </Box>
+
+      {/* Shooting stars - diagonal effect */}
+      <Box
+        className="shooting-stars"
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          overflow: 'hidden',
+          zIndex: 0,
+        }}
+      >
+        <Box className="shooting-star shooting-star-1" />
+        <Box className="shooting-star shooting-star-2" />
+        <Box className="shooting-star shooting-star-3" />
+        <Box className="shooting-star shooting-star-4" />
       </Box>
     </>
   );

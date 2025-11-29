@@ -123,9 +123,9 @@ class AIService {
       const systemPrompt = getSystemPrompt();
       const fullPrompt = `${systemPrompt}\n\nConversation:\n${conversationText}\n\nRuby:`;
 
-      console.log('🔷 Ruby AI: Sending request to Gemini 1.5 Flash...');
+      console.log('🔷 Ruby AI: Sending request to Gemini 2.5 Flash...');
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.config.apiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${this.config.apiKey}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

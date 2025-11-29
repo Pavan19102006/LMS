@@ -80,8 +80,8 @@ const AppLayout = () => {
 
   return (
     <div className="App">
-      {}
-      {!isLoginPage && isAuthenticated && <StarryBackground />}
+      {/* Starry background for all pages and all users */}
+      <StarryBackground />
       
       {!isLoginPage && <Navbar />}
       <main className={isLoginPage ? '' : 'main-content'}>

@@ -330,4 +330,96 @@ router.post('/:id/publish', auth, async (req, res) => {
     res.status(500).json({ message: 'Server error updating assignment publication status' });
   }
 });
+
+// Get all submissions for an assignment (Instructor only)
+router.get('/:id/submissions', auth, async (req, res) => {
+  try {
+    const assignment = await Assignment.findById(req.params.id)
+      .populate({
+        path: 'submissions.student',
+        select: 'firstName lastName email'
+      });
+    
+    if (!assignment) {
+      return res.status(404).json({ message: 'Assignment not found' });
+    }
+    
+    const isInstructor = assignment.instructor.toString() === req.user._id.toString();
+    const isAdmin = req.user.role === 'admin';
+    
+    if (!isInstructor && !isAdmin) {
+      return res.status(403).json({ message: 'Access denied. Only instructors can view submissions.' });
+    }
+    
+    res.json({ 
+      submissions: assignment.submissions,
+      assignment: {
+        _id: assignment._id,
+        title: assignment.title,
+        maxPoints: assignment.maxPoints,
+        type: assignment.type,
+        quizQuestions: assignment.quizQuestions
+      }
+    });
+  } catch (error) {
+    console.error('Get submissions error:', error);
+    res.status(500).json({ message: 'Server error fetching submissions' });
+  }
+});
+
+// Grade a submission (Instructor only)
+router.put('/:assignmentId/submissions/:submissionId/grade', auth, [
+  body('grade').isFloat({ min: 0 }).withMessage('Grade must be 0 or greater'),
+  body('feedback').optional().trim()
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ 
+        message: 'Validation failed', 
+        errors: errors.array() 
+      });
+    }
+    
+    const assignment = await Assignment.findById(req.params.assignmentId);
+    
+    if (!assignment) {
+      return res.status(404).json({ message: 'Assignment not found' });
+    }
+    
+    const isInstructor = assignment.instructor.toString() === req.user._id.toString();
+    const isAdmin = req.user.role === 'admin';
+    
+    if (!isInstructor && !isAdmin) {
+      return res.status(403).json({ message: 'Access denied. Only instructors can grade submissions.' });
+    }
+    
+    const submission = assignment.submissions.id(req.params.submissionId);
+    
+    if (!submission) {
+      return res.status(404).json({ message: 'Submission not found' });
+    }
+    
+    const { grade, feedback } = req.body;
+    
+    if (grade > assignment.maxPoints) {
+      return res.status(400).json({ message: `Grade cannot exceed maximum points (${assignment.maxPoints})` });
+    }
+    
+    submission.grade = grade;
+    submission.feedback = feedback || '';
+    submission.gradedAt = new Date();
+    
+    await assignment.save();
+    
+    res.json({ 
+      message: 'Submission graded successfully',
+      submission
+    });
+  } catch (error) {
+    console.error('Grade submission error:', error);
+    res.status(500).json({ message: 'Server error grading submission' });
+  }
+});
+
 module.exports = router;

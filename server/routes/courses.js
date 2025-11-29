@@ -130,14 +130,31 @@ router.put('/:id', auth, [
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
-    const isInstructor = course.instructor.toString() === req.user._id.toString();
+    
+    const isCurrentInstructor = course.instructor && course.instructor.toString() === req.user._id.toString();
     const isAdmin = req.user.role === 'admin';
-    if (!isInstructor && !isAdmin) {
+    const isInstructorRole = req.user.role === 'instructor';
+    const isAssigningToSelf = req.body.instructor && req.body.instructor.toString() === req.user._id.toString();
+    
+    // Allow if: admin, current instructor, or instructor assigning course to themselves
+    if (!isAdmin && !isCurrentInstructor && !(isInstructorRole && isAssigningToSelf)) {
       return res.status(403).json({ message: 'Access denied. You can only edit your own courses.' });
     }
+    
     const updates = req.body;
     delete updates._id;
-    delete updates.instructor; 
+    
+    // Only allow admin or the new instructor themselves to update the instructor field
+    if (updates.instructor) {
+      const newInstructorId = updates.instructor.toString();
+      const requestingUserId = req.user._id.toString();
+      
+      // Allow if admin OR if instructor is assigning the course to themselves
+      if (!isAdmin && newInstructorId !== requestingUserId) {
+        delete updates.instructor;
+      }
+    }
+    
     const updatedCourse = await Course.findByIdAndUpdate(
       req.params.id,
       { $set: updates },
