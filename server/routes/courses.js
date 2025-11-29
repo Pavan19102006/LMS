@@ -23,7 +23,10 @@ router.get('/', async (req, res) => {
     let query = {};
     if (published === 'true') {
       query.isPublished = true;
+    } else if (published === 'false') {
+      query.isPublished = false;
     }
+    // If published === 'all', don't filter by published status
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },

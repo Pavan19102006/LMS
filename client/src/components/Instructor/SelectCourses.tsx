@@ -60,7 +60,7 @@ const SelectCourses: React.FC<SelectCoursesProps> = ({ open, onClose, onSuccess 
 
       // Fetch all courses (including unpublished ones for instructors)
       const allCoursesResponse = await axios.get('/api/courses', {
-        params: { limit: 100, published: 'false' }
+        params: { limit: 100, published: 'all' }
       });
       const allCourses = allCoursesResponse.data.courses || [];
 
