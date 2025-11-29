@@ -14,7 +14,7 @@
   ],
   "functions": {
     "server/index.js": {
-      "runtime": "@vercel/node@2"
+      "runtime": "nodejs18.x"
     }
   }
 }
